@@ -1,0 +1,39 @@
+:host ::ng-deep {
+
+    .cbs__header {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: right;
+    }
+
+    .cbs__events{
+        .slds-icon-action-user {
+            position: relative;
+            height: 32px;
+            width: 32px;
+            vertical-align: middle;
+            margin-right: 4px;
+            .slds-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        &__preloader {
+            position: relative;
+            min-height: 400px;
+            @media screen and (max-height: 600px) {
+                min-height: 100px;
+            }
+        }
+    }
+    .cbs__pagination {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .cbs__no-data-text {
+        text-align: center;
+        margin-top: 1rem;
+    }
+}

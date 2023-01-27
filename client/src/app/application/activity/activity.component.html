@@ -1,0 +1,19 @@
+<div class="cbs__application__page-header">
+    <h3 class="slds-section__title cbs__application__headercaption">Application Activity History</h3>
+</div>
+
+<div *ngIf="!isLoadingLogs && !noData">
+    <div class="cbs__application__logs">
+        <ul>
+            <li *ngFor="let log of applicationLogs; let i = index; trackBy: log?.id">
+                <cbs-activity-log [logData]="log"></cbs-activity-log>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="slds-grid slds-grid--vertical-align-center slds-grid--align-center cbs__application__nodata" *ngIf="!isLoadingLogs && noData">
+    <div>No logs data is available</div>
+</div>
+
+<cbs-loading-indicator [showLoader]="isLoadingLogs"></cbs-loading-indicator>

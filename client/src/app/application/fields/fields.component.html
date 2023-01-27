@@ -1,0 +1,88 @@
+<div *ngIf="isFieldsEditable">
+  <button class="slds-button slds-button--neutral slds-not-selected slds-float_right" aria-live="assertive" (click)="openEdit()" *ngIf="!showEditFormFields && !noData">
+    <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+    </svg>
+    <span class="slds-text-not-selected">Edit form fields</span>
+  </button>
+</div>
+
+<cbs-form-layout>
+  <div class="slds-text-title--caps slds-m-bottom--medium">
+    <strong>Application Form Fields</strong>
+  </div>
+  <div class="slds-p-top_x-large"></div>
+  <div *ngIf="!showEditFormFields && !noData">
+    <div *ngFor="let section of formFieldSectionsData; let i=index; trackBy: section?.id;">
+      <div class="slds-text-title--caps slds-m-bottom--medium">
+        <strong>{{section.caption}}</strong>
+      </div>
+      <div *ngFor="let field of section.fields; let i=index; trackBy: field?.id;">
+        <cbs-form-readonly-control
+          class="slds-align_absolute-center"
+          [fieldLabel]="field?.field?.caption"
+          [isTextarea]="field?.field?.fieldType === 'TEXT_AREA'"
+          [isGrid]="field?.field?.fieldType === 'GRID'"
+          [isMultiSelect]="field?.field?.fieldType === 'MULTIPLE_SELECT'"
+          [fieldData]="field"
+          [value]="field?.value">
+        </cbs-form-readonly-control>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showEditFormFields && isFieldsEditable">
+    <form novalidate [formGroup]="applicationForm" (ngSubmit)="saveForm(applicationForm)">
+        <div formArrayName="fieldSections">
+          <div *ngIf="applicationForm.controls.fieldSections.controls.length > 0">
+            <div *ngFor="let section of applicationForm.controls.fieldSections.controls; let i=index; trackBy: section;">
+              <div class="slds-text-title--caps slds-m-bottom--medium">
+                <strong>{{findLabel(i+1)}}</strong>
+              </div>
+              <div *ngFor="let field of section.controls;" class="slds-p-left--medium">
+                <cbs-form-field [fieldForm]="field" [fieldData]="formFieldSectionsData[i].fields"></cbs-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+
+</cbs-form-layout>
+
+<div class="cbs__response-block" style="position: fixed" *ngIf="response == 'success'">
+  <div class="cbs__response-block__item">
+    <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+    <p class="slds-text-heading--medium">You have successfully saved form data!</p>
+  </div>
+</div>
+
+<div class="cbs__response-block" *ngIf="response == 'error'"  style="position: fixed">
+  <div class="cbs__response-block__item">
+    <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+    <p class="slds-text-heading--medium">Oops! Something went wrong.</p>
+  </div>
+</div>
+
+
+<cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+<div class="slds-grid slds-grid--vertical-align-center slds-grid--align-center cbs__application__nodata" *ngIf="!isLoading && noData">
+  <div>No form data is available</div>
+</div>
+
+<div *ngIf="isFieldsEditable">
+  <div *ngIf="showEditFormFields && !noData" class="slds-align--absolute-center">
+    <button class="slds-button slds-button--success slds-not-selected" aria-live="assertive" (click)="saveForm(applicationForm)" [disabled]="!formHasChanged">
+      <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+      </svg>
+      <span class="slds-text-not-selected">Save</span>
+    </button>
+    <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" (click)="closeEdit()">
+      <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      </svg>
+      <span class="slds-text-not-selected">Cancel</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<cbs-header>
+    <cbs-page-header [headerTitle]="'Applications'" [headerHeading]="'All Applications'" [svgIconName]="['standard','related_list', 'related-list']">
+        <button class="slds-button slds-button--success cbs__export__btn" [disabled]="noData" (click)="exportToXls()" download="resp">Export</button>
+    </cbs-page-header>
+</cbs-header>
+
+
+<main class="cbs__main">
+    <cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+    <div class="cbs__application-all-wrap">
+        <div class="cbs__application-all__left">
+            <cbs-application-search (fireSearch)="search($event)" [searchQuery]="queryObject"></cbs-application-search>
+        </div>
+        <div class="cbs__application-all__right" [class.cbs__application-all__no-paddings]="noBodyPaddings">
+            <table class="slds-table slds-table--bordered cbs__all-applications-table" *ngIf="!isLoading && !noData">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <th scope="col" width="50">
+                            <div class="slds-truncate" title="ID">#</div>
+                        </th>
+                        <th scope="col">
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'name'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Application Name">Application Name</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'profile.firstName'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Profile Name">Profile Name</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'currentState.name'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Current State">Current State</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                      <th scope="col">
+                        <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'currentState.responsibleUsers'; sortDirection= -sortDirection;">
+                          <div class="slds-truncate" title="State Responsible User">State Responsible User</div>
+
+                          <div class="slds-icon_container">
+                            <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                              <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                            </svg>
+                          </div>
+                        </a>
+                      </th>
+                        <th scope="col">
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'responsibleUser.name'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Responsible User">Responsible User</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                        <th scope="col">
+
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'createdDate'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Date Created">Date Created</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'createdUser.name'; sortDirection= -sortDirection;">
+                                <div class="slds-truncate" title="Created By">Created By</div>
+
+                                <div class="slds-icon_container">
+                                    <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon" >
+                                    <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of applicationsData | cbsOrderBy: propertyName:sortDirection; trackBy: task?.id">
+                        <th scope="row">
+                            <div class="slds-truncate" title="Task ID">{{ task?.id }}</div>
+                        </th>
+                        <td scope="row" data-label="Application Name">
+                            <a (click)="gotoDetails(task?.id)" class="slds-truncate" title="Application Name">{{ task?.name }}</a>
+                        </td>
+                        <th scope="row" data-label="Profile Name">
+                            <div class="slds-truncate" title="Profile Name">{{ task?.profile?.firstName }} {{task?.profile?.lastName}}</div>
+                        </th>
+                        <td data-label="Current State">
+                            <span [attr.class]="'slds-badge slds-badge--' + getStateColor(task?.currentState?.id)">{{task?.currentState?.name}}</span>
+                        </td>
+                      <td data-label="State Responsible User">
+                        <div class="slds-truncate" title="State Responsible User" style="width: 200px;">{{ task?.currentState?.responsibleUsers }}</div>
+                      </td>
+                        <td data-label="Responsible User">
+                            <div class="slds-truncate" title="Responsible User">{{ task?.responsibleUser?.name }}</div>
+                        </td>
+                        <td data-label="Date Created">
+                            <div class="slds-truncate" title="Date Created">{{task?.createdDate | date}}</div>
+                        </td>
+                        <td data-label="Created By">
+                            <div class="slds-truncate" title="">{{task?.createdUser?.name}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="slds-grid slds-grid--vertical-align-center slds-grid--align-center cbs__application__nodata" *ngIf="!isLoading && noData">
+                <div>No applications data is available</div>
+            </div>
+
+            <div class="slds-grid">
+                <p class="cbs_count_application">{{currentTotal}} <span>of</span> {{pagerData.total}}</p>
+                <ngl-pagination *ngIf="pagerData?.total > pagerData?.size && !isLoading" class="cbs__pagination" [(page)]="currentPage" [total]="pagerData?.total" limit="5" [perPage]="pagerData?.size" boundaryNumbers="1" (pageChange)="gotoPage($event)" #pagination></ngl-pagination>
+            </div>
+
+        </div>
+    </div>
+</main>

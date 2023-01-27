@@ -1,0 +1,172 @@
+<cbs-header>
+
+    <div class="cbs__application__header">
+        <div class="cbs__application__headings">
+            <div class="slds-text-title cbs__application__caption">Application ID #{{applicationData?.id}} <span [attr.class]="'slds-badge slds-badge--' + getStateColor(applicationData?.currentState?.id)">{{applicationData?.currentState?.name}}</span></div>
+            <div class="slds-form-element slds-m-top--small" *ngIf="!isApplicationNameEditView">
+                <div class="slds-text-heading--large cbs__application__title">
+                    {{applicationData?.name}}
+                    <button class="slds-button slds-button--icon slds-button--icon-small" title="Click to edit" *ngIf="isApplicationNameEditable" (click)="activateApplicationNameEdit(applicationData?.name)">
+                        <svg class="slds-button__icon slds-button__icon--hint" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Edit</span>
+                    </button>
+                </div>
+            </div>
+            <form novalidate *ngIf="isApplicationNameEditView" #applicationNameForm="ngForm" (ngSubmit)="submitApplicationName(applicationNameForm)" class="slds-m-top--small">
+                <div class="slds-form-element cbs__application__title-edit" [class.slds-has-error]="name.errors?.required && name.touched">
+                    <div class="slds-button-group" role="group">
+                        <button type="submit" class="slds-button slds-button--icon slds-button--icon-small slds-button--icon-border save-btn" title="Save"
+                                [disabled]="applicationNameForm.invalid || !formChanged">
+                            <svg class="slds-button__icon slds-button__icon--hint" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Save</span>
+                        </button>
+                        <button type="button" class="slds-button slds-button--icon slds-button--icon-small slds-button--icon-border cancel-btn" title="Cancel"
+                                (click)="closeApplicationNameEdit()">
+                            <svg class="slds-button__icon slds-button__icon--hint" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cancel</span>
+                        </button>
+                    </div>
+
+
+                    <div class="slds-form-element__control">
+                        <input type="text" id="application-name" class="slds-input"
+                               maxlength="50"
+                               placeholder="Application name"
+                               name="name"
+                               #name="ngModel"
+                               [ngModel]="applicationData?.name"
+                               (ngModelChange)="checkApplicationNameChange($event)"
+                               required />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="cbs__application__actionbtns" *ngIf="isActionsEditable">
+            <span nglDropdown [(open)]="dropdownOpen" *ngIf="selectedAction === '' && applicationData?.actions.length > 0">
+                    <button class="slds-button slds-button--neutral" nglDropdownTrigger>
+                        <span class="slds-truncate">Select action</span>
+                        <ngl-icon *ngIf="!dropdownOpen" icon="down" type="default" size="x-small"></ngl-icon>
+                        <ngl-icon *ngIf="dropdownOpen" icon="close" type="default" size="x-small"></ngl-icon>
+                    </button>
+                    <div class="slds-dropdown slds-dropdown--left">
+                        <ul class="dropdown__list" role="menu">
+                            <li class="slds-dropdown__item" *ngFor="let action of applicationData?.actions;">
+                                <a role="menuitem" nglDropdownItem (click)="selectedAction = action.name; dropdownOpen = false;">
+                                    <p class="slds-truncate">{{action.name}}</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+            <div *ngIf="selectedAction !== ''">
+                <button class="slds-button slds-button--neutral" (click)="selectedAction = ''">Cancel</button>
+                <button class="slds-button"
+                        [ngClass]="{'slds-button--success': selectedAction != 'Reject', 'slds-button--destructive': selectedAction == 'Reject'}"
+                        (click)="fireAction(selectedAction)">Process '{{selectedAction | uppercase}}'</button>
+            </div>
+        </div>
+    </div>
+
+</cbs-header>
+
+<main class="cbs__main">
+    <div class="cbs__application-wrap">
+        <div class="cbs__application__left">
+            <nav class="cbs__application__nav">
+                <ul>
+                    <li routerLinkActive="active">
+                        <a routerLink="info">Information</a>
+                    </li>
+                    <li routerLinkActive="active" *ngIf="isFieldsVisible">
+                        <a routerLink="fields">Application Data Fields</a>
+                    </li>
+                    <li routerLinkActive="active" *cbsVisibleByPermission="permissionReadAppFiles">
+                        <a routerLink="files">Attachments</a>
+                    </li>
+                    <li routerLinkActive="active" *cbsVisibleByPermission="permissionReadAppWorklogs">
+                        <a routerLink="logs">Work Logs</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="activity">Activity History</a>
+                    </li>
+                    <li routerLinkActive="active" *ngIf="isPermissionsVisible">
+                        <a routerLink="permissions">State Permissions</a>
+                    </li>
+                    <li routerLinkActive="active" *ngIf="isEventsVisible">
+                        <a routerLink="events">Events</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="cbs__application__right">
+            <router-outlet></router-outlet>
+        </div>
+
+        <div *ngIf="leaveNote" class="cbs__application__note">
+            <form novalidate #f="ngForm" (ngSubmit)="submitAction(f)">
+                <input type="text" name="actionId" #value="ngModel" [ngModel]="actionId" hidden>
+                <div class="slds-text-heading--large">Change current application state to '{{selectedAction | uppercase}}'</div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="note">Please leave note:</label>
+                    <div class="slds-form-element__control">
+                        <textarea id="note" name="note" class="slds-textarea" #note="ngModel" ngModel placeholder="Your note on changing the state of the current application"></textarea>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col cbs__application__note-left">
+                        <a (click)="cancelConfirm()" class="slds-button slds-button--neutral">Cancel</a>
+                    </div>
+                    <div class="slds-col cbs__application__note-right">
+                        <button type="submit" class="slds-button slds-button--success">Confirm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div class="" *ngIf="isLoading || isSubmiting">
+    <div class="slds-spinner_container">
+        <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+</div>
+<div [ngSwitch]="isResponseStatusOk">
+    <div *ngSwitchCase="'ok'">
+        <div class="cbs__response-block">
+            <div class="cbs__response-block__item">
+                <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+                <p class="slds-text-heading--medium">You have successfully changed the status of the current application!</p>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="'error'">
+        <div class="cbs__response-block">
+            <div class="cbs__response-block__item">
+                <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+                <p class="slds-text-heading--medium" *ngIf="!errorMessage">Oops! Something went wrong, please try again.</p>
+                <p class="slds-text-heading--medium" *ngIf="errorMessage">{{ errMessage }}</p>
+                <div *ngFor="let field of errorMessage;" class="slds-p-left--medium">
+                    <p class="slds-text-heading--medium" *ngIf="errorMessage">{{ field }}</p>
+                </div>
+                <button type="submit" class="error_button_mandatory_are_missing slds-button slds-button--brand" (click)="isResponseStatusOk = ''">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="errorOnApplicationData" class="cbs__server-error slds-grid slds-grid--vertical-align-center slds-grid--align-center">
+    <div class="slds-text-align--center">
+        <p><strong>Oops, something went wrong. Please try reloading this page :(</strong></p>
+        <button class="slds-button slds-button--neutral" routerLink="/">Reload</button>
+    </div>
+</div>

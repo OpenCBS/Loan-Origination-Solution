@@ -1,0 +1,387 @@
+:host ::ng-deep {
+    .cbs__application {
+        &-wrap {
+            display: flex;
+            flex-flow: row nowrap;
+            height: 100%;
+            position: relative;
+            padding-top: 34px;
+        }
+        &__nodata {
+            min-height: 40%;
+        }
+        &__actionbtns {
+            .slds-dropdown-trigger {
+                .slds-dropdown {
+                    width: 100%;
+                }
+            }
+        }
+        &__caption {
+            margin-top: 6px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        &__left {
+            padding: 1rem 0;
+            position: relative;
+            flex: 0 1 auto;
+            height: 100%;
+            overflow: auto;
+            width: 200px;
+            background: #fff;
+        }
+        &__right {
+            position: relative;
+            flex: 1 0 auto;
+            height: 100%;
+            overflow: auto;
+            border-left: 1px solid rgb(216, 221, 230);
+            padding: 1rem;
+            width: 80%;
+        }
+        &__field {
+            margin-top: 1.8rem;
+            &:first-child {
+                margin-top: 0;
+            }
+            &caption {
+                margin-bottom: 10px;
+                color: #0070d2;
+            }
+        }
+        &__files {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            a {
+                &:hover,
+                &:focus {
+                    text-decoration: none;
+                }
+            }
+            &-file {
+                padding-left: .5rem;
+                vertical-align: middle;
+            }
+            &-action {
+                justify-content: flex-end;
+            }
+            &-modal {
+                position: relative;
+                .cbs__response-block {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    background-color: rgba(255, 255, 255, 0.85);
+                    text-align: center;
+                    &__item {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        .slds-button {
+                            margin-top: 1rem;
+                        }
+                    }
+                }
+                .cbs__getworkflow__spinner {
+                    margin-top: 10px;
+                    position: relative;
+                    height: 50px;
+                }
+            }
+
+            &-large-size-text {
+                color: red;
+            }
+
+            &-btns {
+                margin-top: .5rem;
+            }
+
+            &-preupload {
+                text-align: center;
+
+                h3 {
+                    text-align: center;
+                    display: block;
+                    &:last-child {
+                        margin-bottom: 10px;
+                    }
+                }
+                .slds-icon {
+                    width: 3rem;
+                    height: 3rem;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        &__page {
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ccc;
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+            p {
+                margin-top: 0.6rem;
+            }
+            &-header {
+                display: flex;
+                justify-content: space-between;
+                flex-flow: row wrap;
+                align-items: center;
+            }
+        }
+
+        &__worklog {
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ccc;
+            &:first-child {
+                margin-top: 2rem;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+            p {
+                margin-top: 0.6rem;
+            }
+            .edit-workLog {
+                display: none;
+                float: right;
+                margin-top: -1.5rem;
+                border: none;
+            }
+            &:hover{
+                .edit-workLog{
+                    display: block;
+                }
+            }
+            .work_log_text {
+                height: 65px;
+                overflow-y: hidden;
+                overflow-x: hidden;
+                max-width: 100%;
+                white-space: pre-line;
+                margin-bottom: 0;
+                font-family: "Salesforce Sans", Arial, sans-serif;
+            }
+            .read_more {
+                text-decoration-line: none;
+                color: grey;
+            }
+            .read_more:hover {
+                color: #0070d2;
+            }
+        }
+
+        &__logs,
+        &__fields {
+            margin-top: 2rem;
+            padding-bottom: 1rem;
+        }
+        &__headercaption {
+            color: #0070d2;
+        }
+        &__nav {
+            li {
+                -webkit-transition: background-color .5s;
+                transition: background-color .5s;
+                height: 50px;
+                line-height: 50px;
+                list-style: none;
+                white-space: nowrap;
+                font-weight: 400;
+                font-size: .8125rem;
+                &.active {
+                    background-color: rgb(0, 112, 210);
+                    a {
+                        color: rgb(0, 112, 210);
+                        background-color: rgb(240, 248, 252);
+                        -webkit-transform: translateX(4px);
+                        -ms-transform: translateX(4px);
+                        transform: translateX(4px);
+                        width: calc(100% - 4px);
+                        text-decoration: none;
+                        cursor: default;
+                        padding: 0 12px 0 20px;
+                    }
+                }
+                a {
+                    text-transform: none;
+                    letter-spacing: normal;
+                    border: none;
+                    padding: 0 12px 0 24px;
+                    outline: none;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    background-color: rgb(255, 255, 255);
+                    color: rgb(22, 50, 92);
+                    display: block;
+                    text-decoration: none;
+                    cursor: pointer;
+                    &:hover,
+                    &:active {
+                        background-color: rgb(244, 246, 249);
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        &__header {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem .5rem;
+            border-bottom: 1px solid rgb(216, 221, 230);
+            background: rgb(244, 246, 249);
+            z-index: 100;
+        }
+        &__note {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8rem 3rem 3rem;
+            text-align: center;
+            &-right {
+                padding-left: 5px;
+                button {
+                    width: 100%;
+                }
+            }
+            &-left {
+                padding-right: 5px;
+                .slds-button {
+                    display: block;
+                    width: 100%;
+                }
+            }
+            .slds-text-heading--large {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            .slds-form-element {
+                text-align: left;
+                margin-bottom: 2rem;
+            }
+
+            & > form {
+                width: 650px;
+                margin-left: auto;
+                margin-right: auto;
+                @media screen and (max-width: 750px) {
+                    width: 100%;
+                }
+            }
+        }
+
+        &__title {
+            position: relative;
+
+            button {
+                position: absolute;
+                top: -5px;
+            }
+        }
+
+        &__title-edit {
+            position: relative;
+
+            .slds-button-group {
+                position: absolute;
+                top: 100%;
+                right: 0;
+
+                .slds-button {
+                    background: #f4f6f9;
+
+                    &:first-child {
+                        border-radius: 0 0 0 0.25rem;
+                    }
+
+                    &:last-child {
+                        border-radius: 0 0 0.25rem 0;
+                    }
+
+                    &.save-btn:not([disabled]) {
+                        svg {
+                            fill: green;
+                        }
+                    }
+
+                    &.cancel-btn:not([disabled]) {
+                        svg {
+                            fill: #c23934;
+                        }
+                    }
+                }
+            }
+
+            .slds-input {
+                font-weight: 300;
+                font-size: 1.75rem;
+                line-height: 1.25;
+            }
+        }
+
+        &__headings {
+            width: 50%;
+        }
+
+        &__actionbtns {
+            text-align: right;
+            width: 50%;
+        }
+    }
+    .cbs__response-block {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.85);
+        text-align: center;
+        &__item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .cbs__server-error {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .slds-file-selector--images .slds-file-selector__dropzone {
+        max-height: 250px;
+    }
+
+    .work_log_text_edit {
+        font-family: "Salesforce Sans", Arial, sans-serif;
+    }
+    .error_button_mandatory_are_missing {
+        margin-top: 15px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+}

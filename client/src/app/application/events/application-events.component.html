@@ -1,0 +1,64 @@
+
+
+<div class="cbs__application__page-header">
+    <h3 class="slds-section__title cbs__application__headercaption">Application States Permissions</h3>
+    <button class="slds-button slds-button--success" aria-live="assertive" (click)="addEvent()">
+        <span class="slds-text-not-selected">
+            <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            </svg>Create New Event</span>
+    </button>
+</div>
+
+<div *ngIf="!isLoading" style="margin-top: 30px">
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer cbs__events" *ngIf="!noData">
+        <thead>
+        <tr class="slds-text-title--caps">
+            <th scope="col" width="50">
+                <div class="slds-truncate" title="#">#</div>
+            </th>
+            <th scope="col">
+                <div class="slds-truncate" title="Title">Title</div>
+            </th>
+            <th scope="col">
+                <div class="slds-truncate" title="Date">Date</div>
+            </th>
+            <th scope="col">
+                <div class="slds-truncate" title="Participants">Participants</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let event of eventsData; let i = index; trackBy: event?.id" (click)="displayEventInfo(event)">
+            <th scope="row">
+                <div class="slds-truncate" title="{{ i + 1}}">{{ i + 1}}</div>
+            </th>
+
+            <td data-label="Title">
+                <div class="slds-truncate" title="{{event?.title}}" *ngIf="event?.title" >{{event?.title}}</div>
+                <div class="slds-truncate" *ngIf="!event?.title">-</div>
+            </td>
+
+            <td data-label="Date">
+                <div class="slds-truncate">{{event?.date}}</div>
+            </td>
+            <td data-label="Participants">
+               <div class="slds-truncate">{{event?.participants}}</div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="noData" class="cbs__no-data-text">No events are available</p>
+
+    <div class="slds-grid slds-grid--align-center" *ngIf="eventsData?.total > eventsData?.size">
+        <ngl-pagination *ngIf="!isLoading" class="cbs__pagination" [(page)]="currentPage" [total]="eventsData?.total" limit="50" [perPage]="eventsData?.size" boundaryNumbers="1" #pagination></ngl-pagination>
+    </div>
+</div>
+
+<cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+<cbs-manage-event-modal  (eventChanged)="onEventChanged($event)"></cbs-manage-event-modal>
+
+

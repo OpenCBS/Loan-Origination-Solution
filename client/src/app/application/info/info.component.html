@@ -1,0 +1,66 @@
+<div *ngIf="!isLoading">
+    <div class="cbs__application__field">
+        <h3 class="slds-section__title cbs__application__fieldcaption">{{applicationData?.workflowInfo?.name}}</h3>
+        <p>{{applicationData?.workflowInfo?.description}}</p>
+    </div>
+    <div class="cbs__application__field">
+        <h3 class="slds-section__title cbs__application__fieldcaption">Profile</h3>
+        <fieldset class="slds-form--compound">
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Profile Name</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static">{{applicationData?.profile?.firstName}} {{applicationData?.profile?.lastName}}</span>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Profile ID</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static">{{applicationData?.profile?.id}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Profile Email</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static">{{applicationData?.profile?.email}}</span>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Profile Tel</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static" *ngIf="applicationData?.profile?.mobilePhone">{{applicationData?.profile?.mobilePhone}}</span>
+                            <span class="slds-form-element__static" *ngIf="!applicationData?.profile?.mobilePhone">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="cbs__application__field">
+        <h3 class="slds-section__title cbs__application__fieldcaption">Creation</h3>
+        <fieldset class="slds-form--compound">
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Created By</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static">{{applicationData?.createdUser?.name}}</span>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size--1-of-2">
+                        <span class="slds-form-element__label">Date Created</span>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <span class="slds-form-element__static">{{applicationData?.createdDate | date}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>

@@ -1,0 +1,84 @@
+<div class="cbs__application__page-header">
+    <h3 class="slds-section__title cbs__application__headercaption">Work Logs</h3>
+    <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" (click)="openCreateModal()" *cbsVisibleByPermission="permissionCreateAppWorklogs">
+        <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+        </svg>
+      <span class="slds-text-not-selected">Add work log</span>
+    </button>
+</div>
+<div *ngIf="!isLoading && !noData">
+    <div class="cbs__application__worklog" *ngFor="let log of applicationData; let i = index; trackBy: log?.id">
+        <h3 class="slds-section__title">{{log.createdUser.firstName}} {{log.createdUser.lastName}} logged work - {{log.enteredDate | date}}</h3>
+        <div *ngIf="hasPermission">
+            <div class="edit-workLog" aria-live="assertive" (click)="openEditModal(log)" *cbsVisibleByPermission="permissionCreateAppWorklogs">
+            <span class="slds-text-not-selected">
+                <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                </svg>
+            </span>
+            </div>
+        </div>
+        <p class="slds-text-title">Time Spent - {{log.spentHours}} hours</p>
+        <pre #worklog class="work_log_text"><p>{{log.note}}</p></pre>
+        <a class="read_more" (click)="readMore(worklog, log)">{{!log.expanded ? 'read more...': 'show less'}}</a>
+    </div>
+</div>
+
+<div class="slds-grid slds-grid--vertical-align-center slds-grid--align-center cbs__application__nodata" *ngIf="!isLoading && noData">
+    <div>No work log data is available</div>
+</div>
+
+<cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+<ngl-modal [header]="isNew ? 'Add new work log' : 'Edit work log'" [(open)]="opened" (openChange)="cancel()" *cbsVisibleByPermission="permissionCreateAppWorklogs">
+    <div body>
+        <form novalidate [formGroup]="logForm" (ngSubmit)="submitForm(logForm)">
+            <div class="slds-form--stacked">
+                <div class="slds-form-element" [class.slds-has-error]="logForm.get('enteredDate').errors?.required && logForm.get('enteredDate').touched">
+                    <div class="slds-form-element__control">
+                        <cbs-form-date #dateConrol [config]="formDateConfig"  [group]="logForm"  [styleClass]="'slds-form-element slds-size--1-of-2'"></cbs-form-date>
+                    </div>
+                </div>
+
+                <div class="slds-form-element" [class.slds-has-error]="logForm.get('spentHours').errors?.required && logForm.get('spentHours').touched">
+                    <label class="slds-form-element__label" for="time-spent">
+                    <abbr class="slds-required" title="required" *ngIf="logForm.get('spentHours').errors?.required && logForm.get('spentHours').touched">*</abbr>
+                    Hours Spent
+                </label>
+                    <div class="slds-form-element__control">
+                        <input id="time-spent" class="slds-input" type="number" step="0.01" placeholder="" name="spentHours" formControlName="spentHours" required/>
+                    </div>
+                </div>
+
+                <div class="slds-form-element" [class.slds-has-error]="logForm.get('note').errors?.required && logForm.get('note').touched">
+                    <label class="slds-form-element__label" for="note">
+                    <abbr class="slds-required" title="required" *ngIf="logForm.get('note').errors?.required && logForm.get('note').touched">*</abbr>
+                    Work Description
+                </label>
+                    <div class="slds-form-element__control">
+                        <pre class="work_log_text_edit"><textarea id="note" class="slds-input" type="text" placeholder="Your work description" name="note" formControlName="note" required></textarea></pre>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <ng-template ngl-modal-footer>
+        <button class="slds-button slds-button--neutral" (click)="cancel()">Cancel</button>
+        <button class="slds-button slds-button--brand" (click)="submitWorklog()" [disabled]="logForm.invalid || disableButtonSend">Send</button>
+    </ng-template>
+</ngl-modal>
+
+<div class="cbs__response-block" style="position: fixed" *ngIf="response == 'success'">
+    <div class="cbs__response-block__item">
+        <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+        <p class="slds-text-heading--medium">You have successfully edited work log!</p>
+    </div>
+</div>
+
+<div class="cbs__response-block" *ngIf="response == 'error'"  style="position: fixed">
+    <div class="cbs__response-block__item">
+        <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+        <p class="slds-text-heading--medium">Oops! Something went wrong.</p>
+    </div>
+</div>

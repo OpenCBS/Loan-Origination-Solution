@@ -1,0 +1,66 @@
+<div class="cbs__application__page-header">
+    <h3 class="slds-section__title cbs__application__headercaption">Application States Permissions</h3>
+    <button class="slds-button slds-button--success" aria-live="assertive" [disabled]="!isSaveEnabled"
+            (click)="savePermissions()">
+        <span class="slds-text-not-selected">
+            <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            </svg>Save changes</span>
+    </button>
+</div>
+
+<button *ngIf="applicationData?.deletable && hasPermission"
+        class="slds-button slds-button--success cbs__export__btn delete_application" (click)="openDeleteModal()">
+    Delete
+</button>
+
+<div class="cbs__application__files" *ngIf="!isLoading && !noData">
+    <cbs-state-field
+        *ngFor="let state of currentWorkflowStates; let i = index; trackBy: state?.id;"
+        [stateData]="state"
+        [alreadyGivenPermissions]="alreadyGivenPermissions"
+        [users]="users"
+        [roles]="roles"
+        (saveNewPermissions)="handlePermissions($event, true)"
+        (permissionsInitialized)="handlePermissions($event, false)"></cbs-state-field>
+</div>
+
+<cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+
+<div class="cbs__response-block" *ngIf="response == 'success'">
+    <div class="cbs__response-block__item">
+        <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+        <p class="slds-text-heading--medium">You have successfully saved state permissions</p>
+    </div>
+</div>
+
+<div class="cbs__response-block" *ngIf="response == 'error'">
+    <div class="cbs__response-block__item">
+        <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+        <p class="slds-text-heading--medium">Oops! Something went wrong.</p>
+    </div>
+</div>
+
+<ngl-modal [header]="'Delete Application'" [(open)]="opened">
+    <div body>
+        <p class="slds-text-align--center">Are you sure to delete the application?</p>
+
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="comment">
+                <abbr class="slds-required" title="required">*</abbr>
+                Comment
+            </label>
+            <div class="slds-form-element__control">
+                <textarea (keyup)="checkCommentField()" [(ngModel)]="comment" id="comment" class="slds-input" type="text" placeholder="Your comment" name="comment" required></textarea>
+            </div>
+        </div>
+
+    </div>
+
+
+    <ng-template ngl-modal-footer>
+        <button class="slds-button slds-button--neutral" (click)="cancel()">NO</button>
+        <button class="slds-button slds-button--brand" (click)="deleteApplication()" [disabled]="disableButtonYes">YES</button>
+    </ng-template>
+</ngl-modal>
