@@ -1,0 +1,66 @@
+:host ::ng-deep {
+    display: block;
+    width:520px;
+    margin-left:auto;
+    margin-right:auto;
+    & ::ng-deep {
+        .cbs__user-settings {
+            &__avatar {
+                margin: 1rem 0;
+                height: 100px;
+                width: 100px;
+                position: relative;
+                background-size: cover;
+                background-position: center center;
+
+                img {
+                    visibility: hidden;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 100%;
+                    width: auto;
+                    max-width: none;
+                }
+            }
+
+            &__button {
+                margin-top:15px;
+            }
+
+            &__text {
+                width: 50%;
+                display: inline-block;
+                text-align: left;
+                vertical-align: middle;
+                font-weight: bold;
+                line-height: 1.2;
+                padding-top: 1px;
+            }
+
+            &__form {
+                .slds-form-element > .slds-form-element__label {
+                    margin-top: 4px;
+                }
+
+                .cbs__user-settings__button {
+                    width: 50%;
+                    margin-left: 50%;
+                    text-align: left;
+                }
+            }
+        }
+
+        .slds-form-element > .slds-form-element__label {
+            width: 49%;
+        }
+
+        .slds-form--horizontal .slds-form-element__control {
+            width: 50%;
+        }
+    }
+}
+
+
+

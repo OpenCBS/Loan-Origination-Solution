@@ -1,0 +1,23 @@
+<div class="slds-page-header" role="banner">
+    <div class="slds-grid slds-grid--align-spread">
+        <div class="slds-col slds-no-flex" style="width: 33%">
+            <div class="slds-media slds-no-space slds-grow">
+                <div class="slds-media__figure">
+                    <svg aria-hidden="true" [attr.class]="'slds-icon slds-icon-'+ svgIconName[0] +'-' + svgIconName[2]">
+                        <use [attr.xlink:href]="'/assets/icons/'+ svgIconName[0] +'-sprite/svg/symbols.svg#' + svgIconName[1]"></use>
+                    </svg>
+                </div>
+                <div class="slds-media__body">
+                    <p class="slds-text-title--caps slds-line-height--reset" *ngIf="headerTitle">{{headerTitle}}</p>
+                    <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="{{headerHeading}}">{{headerHeading}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-no-flex">
+            <ng-content select="[cbs-page-header-layout=center]"></ng-content>
+        </div>
+        <div class="slds-col slds-no-flex" style="width: 33%; text-align:right;">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

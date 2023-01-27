@@ -1,0 +1,27 @@
+<cbs-header></cbs-header>
+
+<main class="cbs__main">
+    <div class="cbs__user-settings-wrap">
+        <div class="cbs__user-settings__header">
+            <div class="cbs__user-settings__headings">
+                <div class="slds-text-title cbs__user-settings__caption">Roles - <ngl-badge type="info">{{currentUser?.role?.code}}</ngl-badge></div>
+                <div class="slds-text-heading--large">User Settings - {{currentUser?.firstName}} {{currentUser?.lastName}}</div>
+            </div>
+        </div>
+        <div class="cbs__user-settings__left">
+            <nav class="cbs__user-settings__nav">
+                <ul>
+                    <li routerLinkActive="active">
+                        <a routerLink="info">Information</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a routerLink="password">Password</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="cbs__user-settings__right">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</main>

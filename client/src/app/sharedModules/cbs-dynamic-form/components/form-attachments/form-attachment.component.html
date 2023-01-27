@@ -1,0 +1,28 @@
+<div [ngStyle]="style"
+     [class]="styleClass ? styleClass : 'slds-form-element'"
+     [formGroup]="group"
+     [class.slds-has-error]="
+            (group.get(config.code)?.errors?.required && group.get(config.code).touched)
+            || (group.get(config.code)?.invalid && group.get(config.code).touched)">
+  <label class="slds-form-element__label">
+    <abbr class="slds-required" title="required"
+          *ngIf="group.get(config.code)?.errors?.required || group.get(config.code)?.invalid">*</abbr>
+    {{ config.caption }}
+  </label>
+  <div class="slds-form-element__control">
+    <input type="text" hidden [formControlName]="config.code">
+    <cbs-file-upload
+      name="file"
+      [config]="config"
+      (onUpload)="onUpload($event)"
+      (onError)="onError($event)"
+      (onClear)="onClear()"
+      (onSelect)="setAttachmentValue($event)"
+      includeToken="true"
+      multiple="false"
+      accept="*/*"
+      chooseLabel="{{ 'Choose photo' }}"
+      maxFileSize="100000000">
+    </cbs-file-upload>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<cbs-header></cbs-header>
+
+<main class="cbs__main">
+    <cbs-sidebar-layout>
+        <div cbs-sidebar-side>
+            <!--<div class="cbs__sidebar__search">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--left">
+                        <svg aria-hidden="true" class="slds-input__icon slds-icon-text-default">
+                            <use xlink:href="/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            </svg>
+                        <input id="text-input-01" class="slds-input" type="text" placeholder="Search" />
+                    </div>
+                </div>
+            </div>-->
+            <div class="cbs__settings__nav">
+                <cbs-tree>
+                    <h4 class="slds-text-heading--label" nglTreeHeading>ADMINISTRATION</h4>
+                    <div nglTreeBranch (click)="goHome()">
+                        <a href="javascript:void(0);" class="slds-truncate" nglTreeHeading>Home</a>
+                    </div>
+                    <div nglSubTree expanded="true">
+                        <a class="slds-truncate" nglTreeHeading>Users</a>
+                        <div nglTreeBranch (click)="goTo('users')">
+                            <a href="javascript:void(0);" class="slds-truncate" nglTreeHeading>Users</a>
+                        </div>
+                        <div nglTreeBranch (click)="goTo('roles')">
+                            <a href="javascript:void(0);" class="slds-truncate" nglTreeHeading>Roles</a>
+                        </div>
+                        <!--<div nglTreeBranch>
+                            <a class="slds-truncate" nglTreeHeading>Permission Sets</a>
+                        </div>-->
+                    </div>
+                    <div nglSubTree expanded="false">
+                        <a class="slds-truncate" nglTreeHeading>Workflow Process</a>
+                        <div nglTreeBranch (click)="goTo('workflows')">
+                            <a class="slds-truncate" nglTreeHeading>Workflows</a>
+                        </div>
+                    </div>
+                </cbs-tree>
+            </div>
+
+        </div>
+        <div cbs-sidebar-body>
+            <router-outlet></router-outlet>
+        </div>
+    </cbs-sidebar-layout>
+</main>

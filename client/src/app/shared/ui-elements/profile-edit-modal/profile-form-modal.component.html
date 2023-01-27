@@ -1,0 +1,113 @@
+<script src="profile-form-modal.component.ts"></script>
+<ngl-modal *ngIf="!isNewProfile" [header]="'Edit Profile'" [(open)]="opened">
+  <div body class="cbs__profile-edit-modal">
+    <form novalidate [formGroup]="profileForm" (submit)="submit(profileForm)">
+      <div *ngFor="let section of profileForm.controls.fieldSections.controls; let i=index;"
+        class="slds-p-top--medium slds-p-bottom--large"
+        [attr.id]="'section_' + profileEditFieldSections[i]?.id">
+        <div class="slds-text-heading--small slds-m-bottom--small">{{
+          profileEditFieldSections[i]?.caption }}
+        </div>
+        <ng-container
+          *ngFor="let field of profileEditFieldSections[i]?.values; let ind=index;"
+          cbsDynamicField
+          [config]="field"
+          [group]="section.controls[ind]">
+        </ng-container>
+      </div>
+    </form>
+    <div class="cbs__auth__spinner" *ngIf="isSubmitting">
+      <div class="slds-spinner_container">
+        <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+          <span class="slds-assistive-text">Loading</span>
+          <div class="slds-spinner__dot-a"></div>
+          <div class="slds-spinner__dot-b"></div>
+        </div>
+      </div>
+    </div>
+    <div [ngSwitch]="isResponseStatusOk">
+      <div *ngSwitchCase="'ok'">
+        <div class="cbs__response-block">
+          <div class="cbs__response-block__item">
+            <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+            <p class="slds-text-heading--medium" *ngIf="!isNewProfile">You have successfully updated the
+              profile!</p>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'error'">
+        <div class="cbs__response-block">
+          <div class="cbs__response-block__item">
+            <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template ngl-modal-footer>
+    <button class="slds-button slds-button--neutral" *ngIf="!isSubmitting && isResponseStatusOk == 'null'"
+            (click)="cancel()">Cancel
+    </button>
+    <button class="slds-button slds-button--brand"
+            *ngIf="!isSubmitting && !isNewProfile && isResponseStatusOk == 'null'"
+            (click)="submit(profileForm);">Update Profile
+    </button>
+  </ng-template>
+</ngl-modal>
+
+<ngl-modal *ngIf="isNewProfile" [header]="'Add New Profile'" [(open)]="opened">
+  <div body class="cbs__profile-edit-modal">
+    <form novalidate [formGroup]="profileForm" (submit)="submit(profileForm)">
+      <div *ngFor="let section of profileForm?.controls?.fieldSections?.controls; let i=index;"
+           class="slds-p-top--medium slds-p-bottom--large"
+           [attr.id]="'section_' + profileFieldSections[i].id">
+        <div class="slds-align--absolute-center slds-text-heading--small slds-m-bottom--medium">{{
+          profileFieldSections[i].caption }}
+        </div>
+        <ng-container
+          *ngFor="let field of profileFieldSections[i].customFields; let ind=index;"
+          cbsDynamicField
+          [config]="field"
+          [group]="section.controls[ind]">
+        </ng-container>
+      </div>
+    </form>
+    <div class="cbs__auth__spinner" *ngIf="isSubmitting">
+      <div class="slds-spinner_container">
+        <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+          <span class="slds-assistive-text">Loading</span>
+          <div class="slds-spinner__dot-a"></div>
+          <div class="slds-spinner__dot-b"></div>
+        </div>
+      </div>
+    </div>
+    <div [ngSwitch]="isResponseStatusOk">
+      <div *ngSwitchCase="'ok'">
+        <div class="cbs__response-block">
+          <div class="cbs__response-block__item">
+            <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+            <p class="slds-text-heading--medium" *ngIf="isNewProfile">You have successfully created new
+              profile!</p>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'error'">
+        <div class="cbs__response-block">
+          <div class="cbs__response-block__item">
+            <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template ngl-modal-footer>
+    <button class="slds-button slds-button--neutral" *ngIf="!isSubmitting && isResponseStatusOk == 'null'"
+            (click)="cancel()">Cancel
+    </button>
+    <button class="slds-button slds-button--brand"
+            *ngIf="!isSubmitting && isNewProfile && isResponseStatusOk == 'null'" [disabled]="profileForm.invalid"
+            (click)="submit(profileForm)">Create
+    </button>
+  </ng-template>
+</ngl-modal>
+

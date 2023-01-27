@@ -1,0 +1,26 @@
+:host ::ng-deep {
+    border-radius: 6px;
+    border: 1px solid #d8dde6;
+    display: block;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #fff;
+    padding: 1rem 0;
+    .slds-table--bordered {
+        border-top: none;
+        border-bottom: none;
+    }
+    .slds-icon-action-user {
+        position: relative;
+        height: 32px;
+        width: 32px;
+        vertical-align: middle;
+        margin-right: 4px;
+        .slds-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}

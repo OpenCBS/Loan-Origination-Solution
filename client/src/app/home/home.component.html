@@ -1,0 +1,90 @@
+<cbs-header>
+    <cbs-page-header [headerTitle]="'Tasks'" [headerHeading]="'My Tasks'" [svgIconName]="['standard','task', 'task']">
+        <div cbs-page-header-layout=center>
+            <cbs-search-input
+                    [searchQuery]="searchQuery"
+                    (onClear)="clearSearch()"
+                    (onSearch)="search($event)"
+                    placeholder="Search tasks"></cbs-search-input>
+        </div>
+    </cbs-page-header>
+</cbs-header>
+
+
+<main class="cbs__main">
+
+    <cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer" *ngIf="!isLoading && !noData">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col" width="50">
+                    <div class="slds-truncate" title="ID">#</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Application Name">Application Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Profile Name">Profile Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Current State">Current State</div>
+                </th>
+                <th scope="col">
+                  <div class="slds-truncate" title="State Responsible User">State Responsible User</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Responsible User">Responsible User</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Date Created">Date Created</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Created By">Created By</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Action">Action</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of applicationsData; let i = index; trackBy: task?.id">
+                <th scope="row">
+                    <div class="slds-truncate" title="Task ID">{{i + 1}}</div>
+                </th>
+                <td scope="row" data-label="Application Name">
+                    <div class="slds-truncate" title="Application Name">{{ task?.name }}</div>
+                </td>
+                <th scope="row" data-label="Profile Name">
+                    <div class="slds-truncate" title="Profile Name">{{ task?.profile?.firstName }} {{task?.profile?.lastName}}</div>
+                </th>
+                <td data-label="Current State">
+                    <span [attr.class]="'slds-badge slds-badge--' + getStateColor(task?.currentState?.id)">{{task?.currentState?.name}}</span>
+                </td>
+                <td data-label="State Responsible User">
+                  <div class="slds-truncate" title="Responsible Users">{{ task?.currentState?.responsibleUsers }}</div>
+                </td>
+                <td data-label="Responsible User">
+                    <div class="slds-truncate" title="Date Created">{{ task?.responsibleUser?.name }}</div>
+                </td>
+                <td data-label="Date Created">
+                    <div class="slds-truncate" title="Date Created">{{task?.createdDate | date}}</div>
+                </td>
+                <td data-label="Created By">
+                    <div class="slds-truncate" title="">{{task?.createdUser?.name}}</div>
+                </td>
+                <td data-label="Action">
+                    <button class="slds-button slds-button--neutral" (click)="gotoDetails(task?.id)">
+                        <span class="slds-text-selected">
+                            <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#change_record_type"></use>
+                            </svg>Process
+                        </span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="!isLoading && noData" class="cbs__no-data-text">No tasks available</p>
+</main>

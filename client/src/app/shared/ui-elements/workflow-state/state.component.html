@@ -1,0 +1,22 @@
+<div class='cbs__state__block'>
+    <div class="cbs__state__header">
+        <h3 class="slds-section__title">{{stateData.name}}</h3>
+        <div class="slds-text-body--regular">
+            <div *ngIf="!permissionsOpened">
+                <span class="slds-truncate cbs__state__pitem" *ngFor="let item of activePermissions; let i = index; let last = last;">
+                    {{ item }}
+                    <span *ngIf="!last">,</span>
+                </span>
+                <button *cbsVisibleByPermission="permissionEditAppPermissions" class="slds-button slds-button--icon-border" aria-live="assertive" title="Add permissions" (click)="permissionsOpened = true">
+                    <svg aria-hidden="true" class="slds-button__icon">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#user_role"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Add permission</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="cbs__permissions__modal" *ngIf="permissionsOpened">
+        <cbs-state-permissions [(activeSelectedPermissions)]="selectedItems" [users]="users" [roles]="roles" (onClose)="permissionsOpened = false" (onSave)="updatePermissions($event)"></cbs-state-permissions>
+    </div>
+</div> <!-- ./cbs__state__state -->

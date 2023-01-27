@@ -1,0 +1,64 @@
+<div class="slds-form-element"
+     [ngClass]="styleClass"
+     [ngStyle]="style">
+  <label *ngIf="fieldLabel" class="slds-form-element__label">
+    {{ fieldLabel }}
+  </label>
+  <div *ngIf="!isGrid && !isMultiSelect" class="slds-form-element__control"
+       [ngClass]="{'slds-form-element__control--disabled': disabled, 'slds-form-element__control--textarea': isTextarea}">
+		<span class="slds-form-element__static slds-truncate" *ngIf="value != 0; else zeroValue">{{ value ? value : '-' }}
+      <button class="slds-button details-button" *ngIf="showLink">
+				<svg class="slds-button__icon slds-button__icon_left slds-button__icon--small">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info_alt"></use>
+				</svg>Info
+			</button>
+		</span>
+    <ng-content></ng-content>
+  </div>
+
+  <div *ngIf="isMultiSelect" class="slds-form-element__control"
+       [ngClass]="{'slds-form-element__control--disabled': disabled}">
+		<span class="slds-form-element__static slds-truncate" [title]="multiSelectValues">{{ multiSelectValues }}
+		</span>
+  </div>
+
+  <div *ngIf="isGrid" class="slds-form-element__control" style="border: none; height: auto">
+    <p-table [columns]="gridHeaders" [value]="gridValues">
+      <ng-template pTemplate="header" let-columns>
+        <tr class="slds-border--bottom">
+          <th *ngFor="let col of columns"
+              class="slds-app-launcher__header-search slds-border--left slds-border--right slds-border--top slds-box--small slds-text-title--caps">
+            {{col.value}}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr class="slds-border--bottom">
+          <td pEditableColumn *ngFor="let col of columns"
+              class="slds-border--left slds-border--right slds-border--top slds-app-launcher__header-search">
+            {{rowData[col.value]}}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <tr>
+          <td class="p-text-right"
+              class="slds-border--left slds-border--right slds-border--top slds-border--bottom slds-app-launcher__header-search slds-text-title_caps">
+            Totals
+          </td>
+          <td class="slds-border--left slds-border--right slds-border--top slds-border--bottom slds-app-launcher__header-search slds-text-title_caps">
+            {{gridTotal}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<ng-template #zeroValue>
+  <span class="slds-form-element__static">{{ value }}</span>
+</ng-template>
+

@@ -1,0 +1,105 @@
+:host ::ng-deep {
+    .slds-table {
+        position: relative;
+    }
+    .cbs__alerts-table {
+        th {
+            padding: 0;
+        }
+
+        tr > th:first-child,
+        tr > td:first-child {
+            padding-left: 0.7rem;
+        }
+
+        .slds-th__action {
+            .slds-icon_container {
+                position: relative;
+                top: -2px;
+            }
+        }
+
+
+        .slds-is-sortable__icon {
+            visibility: hidden;
+            display: inline-block;
+        }
+
+        .slds-th__action:focus .slds-is-sortable__icon,
+        .slds-th__action:hover .slds-is-sortable__icon {
+            visibility: visible;
+        }
+    }
+    .cbs__home {
+        &__preloader {
+            position: relative;
+            min-height: 400px;
+            @media screen and (max-height: 600px) {
+                min-height: 100px;
+            }
+        }
+    }
+    .cbs__no-data-text {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .cbs__pagination {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .slds-table--bordered {
+        border-top: none;
+    }
+
+    .cbs__alerts {
+        &-wrap {
+            display: flex;
+            flex-flow: row nowrap;
+            height: 100%;
+            align-items: flex-start;
+        }
+        &__left {
+            padding: 0;
+            position: relative;
+            flex: 0 1 auto;
+            height: 100%;
+            width: 250px;
+            min-width: 250px;
+            background: #fff;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+
+            @media screen and (max-width: 1360px) {
+                width: 200px;
+                min-width: 200px;
+            }
+
+            .cbs__search {
+                border-right: 1px solid #d8dde6;
+                padding: 1rem;
+                min-height: 100%;
+            }
+        }
+        &__right {
+            position: relative;
+            flex: 1 0 auto;
+            overflow: auto;
+            width: calc(100vw - 270px);
+            height: 100%;
+
+            @media screen and (max-width: 1360px) {
+                width: calc(100vw - 220px);
+            }
+        }
+        &__no-paddings {
+            padding: 1rem;
+        }
+    }
+
+    .cbs__alerts__nodata {
+        min-height: 100px;
+    }
+}

@@ -1,0 +1,30 @@
+:host ::ng-deep {
+    .cbs__settings {
+        &-wrap {
+            display: flex;
+            flex-flow: row nowrap;
+            height: 100%;
+            background: rgb(244, 246, 249);
+        }
+        &__left {
+            padding: 1rem 0;
+            position: relative;
+            flex: 0 1 auto;
+            height: 100%;
+            // overflow: auto;
+            width: 250px;
+            min-width: 250px;
+            background: #fff;
+            border-right: 1px solid rgb(216, 221, 230);
+        }
+        &__right {
+            position: relative;
+            flex: 1 0 auto;
+            height: 100%;
+            overflow: auto;
+        }
+        &__no-paddings {
+            padding: 1rem;
+        }
+    }
+}

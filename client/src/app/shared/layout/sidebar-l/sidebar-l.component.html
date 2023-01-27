@@ -1,0 +1,8 @@
+<div class="cbs__settings-wrap">
+    <div class="cbs__settings__left">
+        <ng-content select="[cbs-sidebar-side]"></ng-content>
+    </div>
+    <div class="cbs__settings__right" [class.cbs__settings__no-paddings]="noBodyPaddings">
+        <ng-content select="[cbs-sidebar-body]"></ng-content>
+    </div>
+</div>

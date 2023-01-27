@@ -1,0 +1,35 @@
+:host ::ng-deep {
+    .cbs__state {
+        &__block {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        &__pitem {
+            color: #8a8a8a;
+            margin-right: 5px;
+        }
+
+        &__header {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .cbs__permissions {
+        &__modal {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1;
+        }
+    }
+}

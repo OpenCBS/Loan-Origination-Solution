@@ -1,0 +1,29 @@
+:host ::ng-deep {
+    .cbs__search {
+        padding: 0 1rem 1rem;
+
+
+        &__btn {
+            margin-top: 10px;
+        }
+    }
+    .slds-form-element {
+        .slds-dropdown {
+            padding: 0;
+        }
+    }
+    .slds-datepicker {
+        &.slds-box {
+            border: none;
+        }
+        td {
+            &[aria-disabled="true"] {
+                color: #d8dde6;
+            }
+        }
+    }
+
+    cbs-datepicker .slds-dropdown {
+        display: none !important;
+    }
+}

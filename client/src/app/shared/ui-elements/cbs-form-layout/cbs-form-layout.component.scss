@@ -1,0 +1,21 @@
+:host ::ng-deep {
+  display: block;
+  padding: 1rem;
+  .slds-container--medium {
+
+  }
+
+  .slds-text-title--caps {
+    width: 100%;
+    margin-left: auto;
+    text-align: center;
+
+    @media screen and (min-width: 994px) {
+      width: 66%;
+    }
+  }
+
+  .slds-form-element {
+    margin-bottom: .5rem;
+  }
+}

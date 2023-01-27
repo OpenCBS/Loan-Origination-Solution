@@ -1,0 +1,68 @@
+<ngl-modal [header]="isNewRole ? 'Add New Role' : 'Edit Role'" [(open)]="opened">
+    <div body class="cbs__role-edit-modal" [ngClass]="{'cbs__role-edit-padding': isResponseStatusOk === 'ok' || isResponseStatusOk === 'error'}">
+        <form novalidate (ngSubmit)="submitForm(role)" [formGroup]="role">
+            <div class="slds-form--stacked">
+                <div class="slds-form-element" [class.slds-has-error]="role.get('name').errors?.required && role.get('name').touched">
+                    <label class="slds-form-element__label" for="last-name">
+                        <abbr class="slds-required" title="required" *ngIf="role.get('name').errors?.required && role.get('name').touched">*</abbr>
+                        Role Name
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="last-name" class="slds-input" type="text" placeholder="Role" formControlName="name" />
+                    </div>
+                </div>
+
+                <div class="slds-form-element" [class.slds-has-error]="(role.get('code').required && role.get('code').touched) || (role.get('code').invalid && role.get('code').touched)">
+                    <label class="slds-form-element__label" for="first-name">
+                        <abbr class="slds-required" title="required" *ngIf="role.get('code').required && role.get('code').touched">*</abbr>
+                        Unique Code
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="first-name" class="slds-input" type="text" placeholder="CODE" formControlName="code" />
+                    </div>
+                </div>
+
+                <cbs-role-permissions
+                    [allPermissions]="allPermissions"
+                    [appPermissions]="appPermissions"
+                    [profilePermissions]="profilePermissions"
+                    [userPermissions]="userPermissions"
+                    [rolePermissions]="rolePermissions"
+                    [alertPermissions] = "alertPermissions"
+                    (onPermissionChange)="onPermissionChange($event)"></cbs-role-permissions>
+            </div>
+        </form>
+        <div class="cbs__auth__spinner" *ngIf="isSubmitting">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+        <div [ngSwitch]="isResponseStatusOk">
+            <div *ngSwitchCase="'ok'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium" *ngIf="isNewRole">You have successfully created new role!</p>
+                        <p class="slds-text-heading--medium" *ngIf="!isNewRole">You have successfully updated the role!</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="'error'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium">Oops! Something went wrong, please try again.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template ngl-modal-footer>
+        <button class="slds-button slds-button--neutral" *ngIf="!isSubmitting && isResponseStatusOk == 'null'" (click)="cancel()">Cancel</button>
+        <button class="slds-button slds-button--brand" *ngIf="!isSubmitting && isResponseStatusOk == 'null'" [disabled]="(isNewRole && role.invalid) || hasFormChanges" (click)="submitForm(role);">{{ isNewRole ? 'Create' : 'Update role'}}</button>
+    </ng-template>
+</ngl-modal>

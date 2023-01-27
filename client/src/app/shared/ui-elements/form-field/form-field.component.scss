@@ -1,0 +1,77 @@
+:host {
+  display:block;
+  margin-top: 0.5rem
+}
+:host ::ng-deep .slds-dropdown-trigger--click .slds-dropdown {
+  padding: 0;
+  border: none;
+}
+:host ::ng-deep .slds-datepicker td[aria-disabled="true"] {
+  color: #d8dde6;
+}
+
+.slds-form-element__control {
+  width: 100%;
+  display: block;
+}
+
+:host::ng-deep {
+  display: block;
+  width: 100%;
+
+  .input {
+    display: none;
+  }
+
+  .table-multiselect {
+
+    & > .ui-helper-hidden-accessible {
+      display: none;
+    }
+
+    .input {
+      display: none;
+    }
+
+    .ui-multiselect-label {
+      background-color: white;
+      color: #16325c;
+      border: 1px solid #d8dde6;
+      border-radius: 0.25rem;
+      width: 100%;
+      transition: border 0.1s linear, background-color 0.1s linear;
+      display: inline-block;
+      padding: 0 1rem 0 0.75rem;
+      line-height: 1.875rem;
+      min-height: calc(1.875rem + (1px * 2));
+    }
+
+    .ui-multiselect-trigger-icon {
+      display: none;
+    }
+
+    .ui-multiselect-item {
+      position: relative;
+      display: -ms-flexbox;
+      display: flex !important;
+      -ms-flex-pack: justify;
+      justify-content: flex-start;
+      padding: 0.5rem 0.75rem;
+      color: #16325c;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:hover {
+        outline: 0;
+        text-decoration: none;
+        background-color: #f4f6f9;
+      }
+
+      .ui-chkbox {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+

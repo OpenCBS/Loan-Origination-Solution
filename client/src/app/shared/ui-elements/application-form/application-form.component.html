@@ -1,0 +1,146 @@
+<ngl-modal [header]="'Create Application for ' + profile?.firstName + ' ' + profile?.lastName" [(open)]="opened" [directional]="true">
+    <div body class="cbs__profile-edit-modal">
+        <div class="slds-grid">
+            <div class="slds-tabs--path" role="application">
+                <ul class="slds-tabs--path__nav" role="tablist">
+                    <li class="slds-tabs--path__item" *ngFor="let item of applicationStep; trackBy: item" [ngClass]="{'slds-is-complete': item.complete, 'slds-is-current': item.isCurrent, 'slds-is-incomplete': !item.complete && !item.isCurrent}"  role="presentation">
+                        <a class="slds-tabs--path__link" aria-controls="content-path-1" aria-selected="false" tabindex="-1" role="tab" href="javascript:void(0);" aria-live="assertive">
+                            <span class="slds-tabs--path__stage">
+                            <svg aria-hidden="true" class="slds-icon slds-icon--x-small">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                            </svg>
+                        </span>
+                            <span class="slds-tabs--path__title">{{ item.title }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class='cbs__application__form-body'>
+            <form [formGroup]="applicationForm" novalidate (ngSubmit)="save(applicationForm)">
+
+                <div class='cbs__application__form-1' *ngIf="currentStepId === 0">
+                    <input type="text" formControlName="profileId" hidden/>
+                    <fieldset class="slds-form--compound">
+                    <div class="slds-form-element__group">
+                        <div class="slds-form-element__row">
+                        <div class="slds-form-element slds-size--1-of-2" [class.slds-has-error]="(applicationForm.get('name').errors?.required && applicationForm.get('name').touched) || (applicationForm.get('name').invalid && applicationForm.get('name').touched)">
+                            <label class="slds-form-element__label" for="application-name">
+                                <abbr class="slds-required" title="required" *ngIf="applicationForm.get('name').errors?.required && applicationForm.get('name').touched">*</abbr>
+                                Name
+                            </label>
+                            <input id="application-name" class="slds-input" type="text" formControlName="name" required />
+                        </div>
+                        <div class="slds-form-element slds-size--1-of-2" [class.slds-has-error]="(applicationForm.get('responsibleUserId').errors?.required && applicationForm.get('responsibleUserId').touched) || (applicationForm.get('responsibleUserId').invalid && applicationForm.get('responsibleUserId').touched)">
+                            <label class="slds-form-element__label" for="application-responsible">
+                                <abbr class="slds-required" title="required" *ngIf="applicationForm.get('responsibleUserId').errors?.required && applicationForm.get('responsibleUserId').touched">*</abbr>
+                                Responsible user
+                            </label>
+                            <select id="application-responsible" class="slds-select" formControlName="responsibleUserId" required>
+                                <option *ngFor="let user of users; trackBy: item" [value]="user.id">{{ user.firstName }} {{ user.lastName }}</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    </fieldset>
+                    <div class="slds-form--stacked">
+                        <div class="slds-form-element" [class.slds-has-error]="(applicationForm.get('workflowId').errors?.required && applicationForm.get('workflowId').touched) || (applicationForm.get('workflowId').invalid && applicationForm.get('workflowId').touched)">
+                            <label class="slds-form-element__label" for="workflow">
+                                <abbr class="slds-required" title="required" *ngIf="applicationForm.get('workflowId').errors?.required && applicationForm.get('workflowId').touched">*</abbr>
+                                Select Workflow
+                            </label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select id="workflow" class="slds-select" formControlName="workflowId" required >
+                                        <option *ngFor="let item of workflows; trackBy: item" [value]="item">{{ item }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- ./cbs__application__form-1 -->
+
+                <div class='cbs__application__form-2' *ngIf="currentStepId === 1">
+                    <cbs-state-field
+                        *ngFor="let state of currentWorkflowStates; trackBy: state?.id;"
+                        [stateData]="state"
+                        [users]="users"
+                        [roles]="roles"
+                        (saveNewPermissions)="handlePermissions($event)"></cbs-state-field>
+                </div> <!-- ./cbs__application__form-2 -->
+
+                <div class='cbs__application__form-3' *ngIf="currentStepId === 2">
+                    <fieldset class="slds-form--compound">
+                        <legend class="slds-form-element__label slds-text-title--caps">Workflow Details</legend>
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row">
+                                <div class="slds-form-element slds-size--1-of-2">
+                                    <span class="slds-form-element__label">Workflow Name</span>
+                                    <div class="slds-form-element__control slds-has-divider--bottom">
+                                        <span class="slds-form-element__static">{{ formDataToSubmit?.workflowName }}</span>
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-size--1-of-2">
+                                    <span class="slds-form-element__label">Client Name</span>
+                                    <div class="slds-form-element__control slds-has-divider--bottom">
+                                        <span class="slds-form-element__static">{{ formDataToSubmit?.clientName }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="slds-form--compound">
+                        <legend class="slds-form-element__label slds-text-title--caps">Application Details</legend>
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row">
+                                <div class="slds-form-element slds-size--1-of-2">
+                                    <span class="slds-form-element__label">Application Name</span>
+                                    <div class="slds-form-element__control slds-has-divider--bottom">
+                                        <span class="slds-form-element__static">{{ formDataToSubmit?.applicationName }}</span>
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-size--1-of-2">
+                                    <span class="slds-form-element__label">Responsible User</span>
+                                    <div class="slds-form-element__control slds-has-divider--bottom">
+                                        <span class="slds-form-element__static">{{ formDataToSubmit?.responsibleUser }}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div> <!-- ./cbs__application__form-3 -->
+            </form>
+        </div> <!-- ./cbs__application__form-body -->
+
+        <cbs-loading-indicator [showLoader]="isSubmiting"></cbs-loading-indicator>
+
+        <div [ngSwitch]="isResponseStatusOk">
+            <div *ngSwitchCase="'ok'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium">You have successfully created new application!</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="'error'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium">Oops! Something went wrong, please try again.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <ng-template ngl-modal-footer >
+        <button class="slds-button slds-button--neutral" *ngIf="!isSubmiting && isResponseStatusOk == 'null' && applicationStep[0]['isCurrent']" (click)="cancel()">Cancel</button>
+        <button class="slds-button slds-button--neutral" *ngIf="!applicationStep[0]['isCurrent']" (click)="goBack(currentStepId - 1)">Back</button>
+        <button class="slds-button slds-button--brand" *ngIf="!applicationStep[2]['isCurrent']" (click)="goNext(currentStepId + 1, applicationForm)" [disabled]="applicationForm.invalid">Next</button>
+        <button class="slds-button slds-button--brand" *ngIf="!isSubmiting && isResponseStatusOk == 'null' && applicationStep[2]['isCurrent']" (click)="save(applicationForm)" [disabled]="applicationForm.invalid">Confirm and Submit</button>
+    </ng-template>
+</ngl-modal>

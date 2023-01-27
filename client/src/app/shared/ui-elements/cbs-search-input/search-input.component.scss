@@ -1,0 +1,9 @@
+:host ::ng-deep  {
+  .cbs-profiles-search {
+    width: 300px;
+
+    @media screen and (max-width: 670px) {
+      width: auto;
+    }
+  }
+}

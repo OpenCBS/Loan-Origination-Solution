@@ -1,0 +1,21 @@
+:host ::ng-deep {
+  .cbs-datepicker {
+    position: relative;
+
+    &__icon {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+    }
+
+    svg.slds-icon {
+      fill: #bbb;
+    }
+
+    .slds-dropdown {
+      padding: 0;
+      border: none;
+      right: -17px;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+<cbs-header>
+    <cbs-page-header [headerTitle]="'Alerts'" [headerHeading]="'Alerts'" [svgIconName]="['standard','groups', 'groups']">
+        <div cbs-page-header-layout=center>
+            <cbs-search-input
+                [searchQuery]="searchQuery"
+                (onClear)="clearSearch()"
+                (onSearch)="search($event)"
+                placeholder="Search alerts"></cbs-search-input>
+        </div>
+    </cbs-page-header>
+</cbs-header>
+
+
+<main class="cbs__main">
+    <cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer cbs__alerts-table" *ngIf="!isLoading && !noData">
+        <thead>
+        <tr class="slds-text-title--caps">
+            <th scope="col" width="50">
+                <div class="slds-truncate" title="#">#</div>
+            </th>
+            <th scope="col">
+                <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'notificationType'; sortDirection= -sortDirection;">
+                    <div class="slds-truncate" title="Type">Type</div>
+
+                    <div class="slds-icon_container">
+                        <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                            <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                        </svg>
+                    </div>
+                </a>
+            </th>
+            <th scope="col">
+                <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'title'; sortDirection= -sortDirection;">
+                    <div class="slds-truncate" title="Subject">Subject</div>
+
+                    <div class="slds-icon_container">
+                        <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                            <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                        </svg>
+                    </div>
+                </a>
+            </th>
+            <th scope="col">
+                <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'createdDate'; sortDirection= -sortDirection;">
+                    <div class="slds-truncate" title="Created At">Created At</div>
+
+                    <div class="slds-icon_container">
+                        <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                            <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                        </svg>
+                    </div>
+                </a>
+            </th>
+            <th scope="col">
+                <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'createdBy'; sortDirection= -sortDirection;">
+                    <div class="slds-truncate" title="Created By">Created By</div>
+
+                    <div class="slds-icon_container">
+                        <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                            <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                        </svg>
+                    </div>
+                </a>
+            </th>
+            <th scope="col">
+                <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" (click)="propertyName = 'recipients'; sortDirection= -sortDirection;">
+                    <div class="slds-truncate" title="Recipients">Recipients</div>
+
+                    <div class="slds-icon_container">
+                        <svg aria-hidden="true"class="slds-icon slds-icon--x-small slds-icon-text-default slds-is-sortable__icon">
+                            <use [attr.xlink:href]="'/assets/icons/utility-sprite/svg/symbols.svg#arrow' + (sortDirection>0?'up':'down')"></use>
+                        </svg>
+                    </div>
+                </a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let alert of alertsData| cbsOrderBy: propertyName:sortDirection; trackBy: alert?.id">
+            <th scope="row">
+                <div class="slds-truncate" title="{{ alert?.id}}">{{ alert?.id}}</div>
+
+            <td data-label="Type">
+                <div class="slds-truncate" title="{{alert?.notificationType}}">{{alert?.notificationType}}</div>
+            </td>
+            <td data-label="Subject">
+                <div class="slds-truncate" title="{{alert?.title}}">{{alert?.title}}</div>
+            </td>
+            <td data-label="Date created">
+                <div class="slds-truncate">{{alert?.createdDate}}</div>
+            </td>
+            <td data-label="Created By">
+                <div class="slds-truncate">{{alert?.createdBy}}</div>
+            </td>
+            <td data-label="Recipient">
+                <div class="slds-truncate">{{alert?.recipients}}</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p *ngIf="!isLoading && noData" class="cbs__no-data-text">No Alerts Data is available</p>
+
+    <div class="slds-grid slds-grid--align-center" *ngIf="pagerData?.total > pagerData?.size">
+        <ngl-pagination *ngIf="!isLoading" class="cbs__pagination" [(page)]="currentPage" [total]="pagerData?.total" limit="5" [perPage]="pagerData?.size" boundaryNumbers="1" (pageChange)="gotoPage($event)" #pagination></ngl-pagination>
+    </div>
+
+
+</main>

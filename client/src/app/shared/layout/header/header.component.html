@@ -1,0 +1,95 @@
+<header class="cbs-header">
+    <div class="slds-context-bar cbs-header__top">
+        <div class="slds-context-bar__primary slds-context-bar__item--divider-right">
+            <div class="slds-context-bar__item slds-no-hover slds-grid--vertical-align-center">
+                <div class="slds-context-bar__icon-action">
+                    <a routerLink="/profiles" class="slds-icon-waffle_container slds-context-bar__button">
+                        <cbs-logo-svg-hor></cbs-logo-svg-hor>
+                    </a>
+                </div>
+                <a routerLink="/profiles" class="cbs-header__logo-text">
+                    <span class="slds-context-bar__label-action slds-context-bar__app-name">
+                        <span class="slds-truncate" title="OpenCBS">Open<strong>CBS</strong></span>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="cbs-header__nav">
+            <div class="slds-context-bar">
+                <nav class="slds-context-bar__secondary" role="navigation">
+                    <ul class="slds-grid">
+                        <li class="slds-context-bar__item" routerLinkActive="slds-is-active">
+                            <a routerLink="/tasks" class="slds-context-bar__label-action" title="Home Tasks">
+                                <span class="slds-truncate">Home Tasks</span>
+                            </a>
+                        </li>
+                        <li class="slds-context-bar__item" routerLinkActive="slds-is-active" *cbsVisibleByPermission="permissionReadProfile">
+                            <a routerLink="/profiles" class="slds-context-bar__label-action" title="Profiles">
+                                <span class="slds-truncate">Profiles</span>
+                            </a>
+                        </li>
+                        <li class="slds-context-bar__item" routerLinkActive="slds-is-active" *cbsVisibleByPermission="permissionReadApplication">
+                            <a routerLink="/applications" class="slds-context-bar__label-action" title="Applications">
+                                <span class="slds-truncate">Applications</span>
+                            </a>
+                        </li>
+                        <li class="slds-context-bar__item" routerLinkActive="slds-is-active" *cbsVisibleByPermission="permissionReadAlerts">
+                            <a routerLink="/alerts" class="slds-context-bar__label-action" title="Alerts">
+                                <span class="slds-truncate">Alerts</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="slds-grid slds-grid--vertical-align-center cbs-header__nav__r">
+                <a [routerLink]="'/event-manager'" class="slds-button slds-button--icon" title="Event Manager">
+                    <svg aria-hidden="true" class="slds-button__icon">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Event Manager</span>
+                </a>
+                <a [routerLink]="'/settings'" class="slds-button slds-button--icon" title="Settings" *cbsVisibleByPermission="[permissionReadUser, permissionReadRoles]">
+                    <svg aria-hidden="true" class="slds-button__icon">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Settings</span>
+                </a>
+                <cbs-user-dropdown>
+                    <div class="cbs-user-dropdown-avatar" [ngStyle]="{'background-image': (avatarImgUrl ? ('url(' + avatarImgUrl + ')') : 'url(/assets/img/avatar1.jpg)')}">
+                        <img src="/assets/img/avatar1.jpg" *ngIf="!avatarImgUrl" alt="Profile avatar" />
+                        <img [src]="avatarImgUrl" *ngIf="avatarImgUrl" alt="{{user.firstName}} {{user.lastName}}" />
+                    </div>
+                    <div class="cbs-user-dropdown-body">
+                        <article class="slds-comment slds-media slds-hint-parent">
+                            <div class="slds-media__figure">
+                                <a href="javascript:void(0);" title="{{user.firstName}} {{user.lastName}}" class="slds-avatar slds-avatar--circle slds-avatar--large" [ngStyle]="{'background-image': (avatarImgUrl ? ('url(' + avatarImgUrl + ')') : 'url(/assets/img/avatar1.jpg)')}">
+                                    <img src="/assets/img/avatar1.jpg" *ngIf="!avatarImgUrl" alt="Profile avatar" />
+                                    <img [src]="avatarImgUrl" *ngIf="avatarImgUrl" alt="{{user.firstName}} {{user.lastName}}" />
+                                </a>
+                            </div>
+                            <div class="slds-media__body">
+                                <header class="slds-media slds-media--center">
+                                    <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                        <p class="slds-text-heading--medium" title="{{user.firstName}} {{user.lastName}}">{{user.firstName}} {{user.lastName}}</p>
+                                    </div>
+                                </header>
+                                <footer>
+                                    <ul class="slds-list--horizontal slds-has-dividers--right slds-text-body--small">
+                                        <li class="slds-item"><a routerLink="/user-settings/info" title="User settings">User settings</a></li>
+                                        <li class="slds-item"><a href="javascript:void(0);" (click)="logout()" title="Logout">Logout</a></li>
+                                    </ul>
+                                </footer>
+                            </div>
+                        </article>
+                    </div>
+                </cbs-user-dropdown>
+            </div>
+        </div>
+    </div>
+
+    <div class="cbs-header__bottom">
+        <ng-content></ng-content>
+    </div>
+</header>

@@ -1,0 +1,29 @@
+<span class="slds-assistive-text">Activity log</span>
+<div class="slds-media">
+    <div class="slds-media__body">
+        <div class="slds-media slds-media--timeline slds-timeline__media--task">
+        <div class="slds-media__figure slds-timeline__icon">
+            <div class="slds-icon_container">
+            <svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-standard-task">
+                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+            </svg>
+            </div>
+        </div>
+        <div class="slds-media__body">
+            <h3 class="slds-truncate" title="State change"><a href="javascript:void(0);">State change</a></h3>
+            <p class="slds-truncate" title="State change was changed">State was changed <span *ngIf="logData?.fromStateName">from <strong>{{ logData.fromStateName | uppercase }}</strong></span> to <strong>{{ logData.toStateName | uppercase }}</strong></p>
+            <p class="cbs__application__activity-note" *ngIf="logData?.note"><strong>Note: </strong>{{logData?.note}}</p>
+            <ul class="slds-list--horizontal slds-wrap">
+                <li class="slds-m-right--large">
+                    <span class="slds-text-title">Time:</span>
+                    <span class="slds-text-body--small">{{logData?.createDate | date}} {{logData?.createDate | date:"HH:mm"}}</span>
+                </li>
+                <li class="slds-m-right--large">
+                    <span class="slds-text-title">Name:</span>
+                    <span class="slds-text-body--small"><a href="javascript:void(0);">{{logData?.createdUser?.firstName}} {{logData?.createdUser?.lastName}}</a></span>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+</div>

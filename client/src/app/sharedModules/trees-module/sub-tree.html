@@ -1,0 +1,9 @@
+<div class="slds-tree__item" tabindex="-1" nglSubTreeTrigger="nglSubTreeTrigger">
+    <button class="slds-button slds-button--icon-bare slds-m-right--x-small" tabindex="-1" [attr.aria-controls]="'ngl-sub-tree-trigger-' + uniqueId">
+        <svg class="slds-button__icon slds-button__icon--small" aria-hidden="true"><use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use></svg>
+    </button>
+    <ng-content select="[nglTreeHeading]"></ng-content>
+</div>
+<div [ngClass]="isExpanded ? 'slds-is-expanded' : 'slds-is-collapsed slds-hidden'" role="group" tabindex="-1" [attr.aria-labelledby]="'ngl-sub-tree-heading-' + uniqueId">
+    <ng-content select="[nglTreeBranch], [nglSubTree]"></ng-content>
+</div>

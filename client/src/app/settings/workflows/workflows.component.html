@@ -1,0 +1,49 @@
+<cbs-page-header [headerTitle]="'Workflow Settings'" [headerHeading]="'Workflows'" [svgIconName]="['standard','sales_path', 'sales-path']" [noPadding]="true" [noBackground]="true" [noBorderBottom]="true">
+    <!--<div class="slds-col slds-no-flex slds-grid slds-align-top">
+        <button class="slds-button slds-button--neutral" aria-live="assertive" (click)="addNewUser()">
+            <span class="slds-text-not-selected">
+                <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                    <use xlink:href="/icons/utility-sprite/svg/symbols.svg#add"></use>
+                </svg>Create
+            </span>
+        </button>
+    </div>-->
+</cbs-page-header>
+
+<cbs-body-board>
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer cbs__profiles">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col" width="50">
+                    <div class="slds-truncate" title="#">#</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Workflow Name">Workflow Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Description">Description</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of workflowsData; let i = index; trackBy: user?.id">
+                <th scope="row">
+                    <div class="slds-truncate" title="Id {{ i + 1}}">{{ i + 1}}</div>
+                </th>
+                <th data-label="Workflow name" scope="row">
+                    <div class="slds-truncate" title="{{user.name}}"><strong>{{user.name}}</strong></div>
+                </th>
+                <td data-label="Description">
+                    <div class="slds-truncate" title="{{user.description}}">{{user.description}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+    <div class="slds-grid slds-grid--align-center" *ngIf="pagerData?.total > 20">
+        <ngl-pagination *ngIf="!isLoading" class="cbs__pagination" [(page)]="currentPage" [total]="pagerData?.total" limit="5" perPage="20" boundaryNumbers="1" (pageChange)="gotoPage($event)" #pagination></ngl-pagination>
+    </div>
+
+</cbs-body-board>

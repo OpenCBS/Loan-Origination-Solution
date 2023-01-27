@@ -1,0 +1,71 @@
+<fieldset class="slds-form--compound">
+  <legend class="slds-form-element__label slds-text-title--caps">Role Permissions</legend>
+  <div class="cbs-role-permissions__select">
+      <a href="#" (click)="selectAll($event)">Select all </a>/<a href="#" (click)="clear($event)">Clear</a>
+  </div>
+  <div class="slds-form-element__group">
+    <div class="slds-form-element__row">
+      <div class="slds-size--1-of-2">
+
+        <fieldset class="slds-form-element">
+            <legend class="slds-form-element__legend slds-form-element__label">Application Permissions</legend>
+            <div class="slds-form-element__control">
+                <label *ngFor="let appPermission of appPermissions; let i = index;" class="slds-checkbox" [attr.for]="'appPermission-' + i" >
+                    <input name="default" type="checkbox" [attr.id]="'appPermission-' + i" [checked]="appPermission?.checked" [disabled]="appPermission?.disabled" (change)="checkPermission(appPermission, 'app')" />
+                    <span class="slds-checkbox--faux"></span>
+                    <span class="slds-form-element__label">{{appPermission?.name}}</span>
+                </label>
+            </div>
+        </fieldset>
+
+      </div>
+      <div class="slds-size--1-of-2">
+
+        <fieldset class="slds-form-element">
+            <legend class="slds-form-element__legend slds-form-element__label">Profile Permissions</legend>
+            <div class="slds-form-element__control">
+                <label *ngFor="let profilePermission of profilePermissions; let i = index;" class="slds-checkbox" [attr.for]="'profilePermission-' + i">
+                    <input name="default" type="checkbox" [attr.id]="'profilePermission-' + i" [checked]="profilePermission?.checked" [disabled]="profilePermission?.disabled" (change)="checkPermission(profilePermission, 'profile')" />
+                    <span class="slds-checkbox--faux"></span>
+                    <span class="slds-form-element__label">{{profilePermission?.name}}</span>
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset class="slds-form-element">
+            <legend class="slds-form-element__legend slds-form-element__label">User Permissions</legend>
+            <div class="slds-form-element__control">
+                <label *ngFor="let userPermission of userPermissions; let i = index;" class="slds-checkbox" [attr.for]="'userPermission-' + i">
+                    <input name="default" type="checkbox" [attr.id]="'userPermission-' + i" [checked]="userPermission?.checked" [disabled]="userPermission?.disabled" (change)="checkPermission(userPermission, 'user')" />
+                    <span class="slds-checkbox--faux"></span>
+                    <span class="slds-form-element__label">{{userPermission?.name}}</span>
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset class="slds-form-element">
+            <legend class="slds-form-element__legend slds-form-element__label">Role Permissions</legend>
+            <div class="slds-form-element__control">
+                <label *ngFor="let rolePermission of rolePermissions; let i = index;" class="slds-checkbox" [attr.for]="'rolePermission-' + i">
+                    <input name="default" type="checkbox" [attr.id]="'rolePermission-' + i" [checked]="rolePermission?.checked" [disabled]="rolePermission?.disabled" (change)="checkPermission(rolePermission, 'role')" />
+                    <span class="slds-checkbox--faux"></span>
+                    <span class="slds-form-element__label">{{rolePermission?.name}}</span>
+                </label>
+            </div>
+        </fieldset>
+
+          <fieldset class="slds-form-element">
+              <legend class="slds-form-element__legend slds-form-element__label">Alert Permissions</legend>
+              <div class="slds-form-element__control">
+                  <label *ngFor="let alertPermission of alertPermissions; let i = index;" class="slds-checkbox" [attr.for]="'alertPermission-' + i">
+                      <input name="default" type="checkbox" [attr.id]="'alertPermission-' + i" [checked]="alertPermission?.checked" [disabled]="alertPermission?.disabled" (change)="checkPermission(alertPermission, 'role')" />
+                      <span class="slds-checkbox--faux"></span>
+                      <span class="slds-form-element__label">{{alertPermission?.name}}</span>
+                  </label>
+              </div>
+          </fieldset>
+
+      </div>
+    </div>
+  </div>
+</fieldset>

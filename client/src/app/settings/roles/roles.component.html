@@ -1,0 +1,59 @@
+<cbs-page-header [headerTitle]="'User Settings'" [headerHeading]="'Roles'" [svgIconName]="['standard','person_account', 'person-account']" [noPadding]="true" [noBackground]="true" [noBorderBottom]="true">
+    <button class="slds-button slds-button--neutral" aria-live="assertive" (click)="addNewRole()" *cbsVisibleByPermission="permissionCreateRole">
+        <span class="slds-text-not-selected">
+            <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+            </svg>Create
+        </span>
+    </button>
+</cbs-page-header>
+
+<cbs-body-board>
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer cbs__profiles">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col" width="50">
+                    <div class="slds-truncate" title="Role Id">#</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Role Code">Role Code</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Role Displayed">Role Name as displayed on reports</div>
+                </th>
+                <th scope="col" *cbsVisibleByPermission="permissionEditRole">
+                    <div class="slds-truncate" title="Edit">Edit</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of rolesData; let i = index; trackBy: role?.id">
+                <th data-label="Label" scope="row">
+                    <div class="slds-truncate" title="Id {{ i + 1}}">{{ i + 1}}</div>
+                </th>
+                <th data-label="Role Name" scope="row">
+                    <div class="slds-truncate" title="{{role.code}}">{{role.code | uppercase}}</div>
+                </th>
+                <td data-label="Role Displayed">
+                    <div class="slds-truncate" title="{{role.name}}">{{role.name}}</div>
+                </td>
+                <td data-label="Access" *cbsVisibleByPermission="permissionEditRole">
+                    <button class="slds-button slds-button--icon-border" (click)=editRole(role)>
+                        <svg aria-hidden="true" class="slds-button__icon">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Edit Role</span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <cbs-loading-indicator [showLoader]="isLoading"></cbs-loading-indicator>
+
+    <div class="slds-grid slds-grid--align-center" *ngIf="pagerData?.total > 20">
+        <ngl-pagination *ngIf="!isLoading" class="cbs__pagination" [(page)]="currentPage" [total]="pagerData?.total" limit="5" perPage="20" boundaryNumbers="1" (pageChange)="gotoPage($event)" #pagination></ngl-pagination>
+    </div>
+
+    <cbs-role-modal (saveRoleData)="saveRole($event)"></cbs-role-modal>
+</cbs-body-board>

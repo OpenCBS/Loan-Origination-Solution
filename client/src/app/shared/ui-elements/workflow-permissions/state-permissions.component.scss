@@ -1,0 +1,68 @@
+:host ::ng-deep {
+    display: block;
+    width: 100%;
+
+    .cbs__permissions {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        &__heading {
+            flex-flow: row nowrap;
+            justify-content: center;
+            margin-bottom: .6rem;
+        }
+
+        &__list {
+            border: 1px solid #d8dde6;
+            margin-top: 1rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 212px;
+
+            li a {
+                position: relative;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                padding: .5rem .75rem;
+                color: #16325c;
+                white-space: nowrap;
+                cursor: pointer;
+
+                &:hover, &:focus {
+                    outline: 0;
+                    text-decoration: none;
+                    background-color: #f4f6f9;
+                }
+
+                svg {
+                    opacity: 0;
+                }
+
+                &.selected {
+                    svg {
+                        opacity: 1;
+                    }
+                }
+
+            }
+        }
+
+        &__footer {
+            margin-top: 1rem;
+            text-align: right;
+
+            .slds-button--success {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .slds-button-group {
+        .slds-button {
+            width: 100%;
+        }
+    }
+
+}

@@ -1,0 +1,131 @@
+:host ::ng-deep {
+    .cbs-header {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+
+        &__logo-text {
+            text-decoration: none;
+            color: #01415E;
+
+            &:hover,
+            &:focus,
+            &:active,
+            &:visited {
+                text-decoration: none;
+                color: #01415E;
+            }
+        }
+
+        &__nav {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+
+            &__r {
+                .slds-button__icon {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
+                .slds-button + .slds-button {
+                    margin-left: 0.5rem;
+                }
+            }
+
+            .slds-context-bar {
+                padding: 0;
+            }
+
+            .slds-grid {
+                height: 100%;
+            }
+
+            .slds-context-bar__item {
+                border-right: 1px solid #d8dde6;
+
+                &.slds-is-active {
+                    border-left: none;
+                    border-bottom-color: #00a1df;
+
+                    &:before {
+                        content: none;
+                    }
+
+                    &:after {
+                        top: auto;
+                        bottom: -3px;
+                    }
+                }
+            }
+        }
+    }
+
+    .slds-context-bar {
+        border-top: none;
+    }
+    .slds-global-header_container {
+        z-index: 100;
+    }
+    .slds-comment {
+        align-items: center;
+    }
+
+    .slds-avatar--medium {
+        width: 1.7rem;
+        height: 1.7rem;
+    }
+
+    .slds-button--icon-more {
+        border: none;
+
+        .slds-button__icon:not(.slds-button__icon--small) {
+            width: 1rem;
+            height: 1rem;
+            margin-top: -3px;
+        }
+
+        .slds-button__icon--small {
+            margin-top: -2px;
+        }
+    }
+
+    .slds-dropdown__item > a {
+        justify-content: flex-start;
+    }
+    .cbs-user-dropdown-avatar {
+        height: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: center center;
+
+        img {
+            visibility: hidden;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 100%;
+            width: auto;
+            max-width: none;
+        }
+    }
+
+    .slds-popover .slds-avatar {
+        position: relative;
+        background-size: cover;
+        background-position: center center;
+
+        img {
+            visibility: hidden;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 100%;
+            width: auto;
+            max-width: none;
+        }
+    }
+}

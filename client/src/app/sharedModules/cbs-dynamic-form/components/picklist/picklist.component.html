@@ -1,0 +1,48 @@
+<div nglDropdown [(open)]="open" [ngClass]="'slds-picklist cbs-picklist'" (openChange)="focusInput($event)">
+    <button type="button" class="slds-button slds-button--neutral slds-grid slds-grid--align-spread" nglDropdownTrigger>
+        <span class="slds-truncate" *ngIf="value">{{ value }}</span>
+        <span class="slds-truncate" *ngIf="!value">{{ selectPlaceholder }}</span>
+        <ngl-icon icon="down" type="default" size="x-small" *ngIf="!open"></ngl-icon>
+        <ngl-icon icon="close" type="default" size="x-small" *ngIf="open"></ngl-icon>
+    </button>
+    <button *ngIf="value" type="button" class="cbs-picklist__clear-btn" (click)="remove()">
+        <svg aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+        </svg>
+    </button>
+    <div class="slds-dropdown slds-dropdown--left" role="listbox">
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+            <svg class="slds-input__icon slds-icon-text-default" aria-hidden="true" *ngIf="!searchQuery">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+            </svg>
+            <svg class="slds-input__icon slds-icon-text-default cbs-picklist__clear-search-btn" aria-hidden="true" *ngIf="searchQuery" (click)="clear()">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+            </svg>
+            <input type="text" class="slds-input" #searchInput [ngModel]="searchQuery" (ngModelChange)="search($event); searchQuery = $event;" placeholder="{{ searchPlaceholder }}" />
+        </div>
+        <div class="cbs-picklist__list"
+             #scrollBlock
+             infinite-scroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="200"
+             (scrolled)="onScroll()"
+             [scrollWindow]="false">
+            <ul class="dropdown__list" role="presentation">
+                <li role="presentation" *ngFor="let item of lookupList" [ngClass]="{'slds-is-selected': item?.selected }">
+                    <span nglDropdownItem  class="slds-lookup__item-action slds-lookup__item-action--label" role="option" (click)="select(item)" (keyup.enter)="select(item)">
+                        <svg class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small slds-shrink-none"
+                             [attr.aria-hidden]="!open">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                        </svg>
+                        <span class="slds-truncate"><span class="slds-assistive-text">Current Selection:</span>{{ item?.name }}</span>
+                    </span>
+                </li>
+                <li *ngIf="!lookupList?.length">
+                <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option">
+                    <span class="slds-truncate">No data available</span>
+                </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

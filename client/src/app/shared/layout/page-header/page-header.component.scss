@@ -1,0 +1,11 @@
+:host {
+    &.no-padding>.slds-page-header {
+        padding: 0;
+    }
+    &.no-background>.slds-page-header {
+        background-color: transparent;
+    }
+    &.no-border-bottom>.slds-page-header {
+        border-bottom: none;
+    }
+}

@@ -1,0 +1,40 @@
+:host ::ng-deep {
+    .cbs__sidebar__search {
+        padding: 0 1rem;
+    }
+    .cbs__settings {
+        &-wrap {
+            display: flex;
+            flex-flow: row nowrap;
+            height: 100%;
+        }
+        &__nav {
+            .slds-text-heading--label {
+                margin-top: 2rem;
+                padding-left: 1rem;
+            }
+            .slds-text-title--caps {
+                margin-top: .5rem;
+                padding-bottom: .5rem;
+                padding-top: .7rem;
+            }
+            .slds-tree div[aria-level="1"]>.slds-tree__item {
+                padding: 0.2rem 0 0.2rem 1rem;
+            }
+            .slds-tree [aria-level="2"]>.slds-tree__item {
+                padding: 0.2rem 0 0.2rem 2.2rem;
+            }
+            .slds-tree [aria-level="3"]>.slds-tree__item {
+                padding: 0.2rem 0 0.2rem 3.5rem;
+            }
+        }
+    }
+
+    .slds-button--icon-border.slds-is-selected-success {
+        color: #32c24d;
+    }
+
+    .cbs__main {
+        padding-top: 40px;
+    }
+}

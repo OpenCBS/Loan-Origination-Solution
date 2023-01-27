@@ -1,0 +1,18 @@
+:host ::ng-deep {
+    .slds-table {
+        position: relative;
+    }
+    .cbs__home {
+        &__preloader {
+            position: relative;
+            min-height: 400px;
+            @media screen and (max-height: 600px) {
+                min-height: 100px;
+            }
+        }
+    }
+    .cbs__no-data-text {
+        text-align: center;
+        margin-top: 1rem;
+    }
+}

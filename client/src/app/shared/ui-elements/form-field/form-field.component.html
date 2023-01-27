@@ -1,0 +1,129 @@
+<div *ngIf="!fieldsReadOnly">
+  <div class="slds-form-element"
+       [formGroup]="fieldForm"
+       [class.slds-has-error]="(fieldForm.get('value').errors?.required && fieldForm.get('value').touched)
+         || (fieldForm.get('value').invalid && fieldForm.get('value').touched)
+         || (fieldForm.get('value').hasError('invalid-date'))">
+    <input type="number" formControlName="fieldId" hidden/>
+    <label class="slds-form-element__label">
+      <abbr class="slds-required" title="required" *ngIf="fieldForm.get('value').errors?.required">*</abbr>
+      {{fieldCaption}}
+    </label>
+    <div [ngSwitch]="fieldType">
+      <div *ngSwitchCase="'TEXT'">
+        <div class="slds-form-element__control">
+          <input class="slds-input" type="text" formControlName="value"/>
+        </div>
+      </div>
+      <div *ngSwitchCase="'NUMERIC'">
+        <div class="slds-form-element__control">
+          <input class="slds-input" type="number" min="0" formControlName="value"/>
+        </div>
+      </div>
+      <div *ngSwitchCase="'TEXT_AREA'">
+        <div class="slds-form-element__control">
+          <textarea class="slds-textarea" name="" formControlName="value"></textarea>
+        </div>
+      </div>
+      <div *ngSwitchCase="'LIST'">
+        <div class="slds-form-element">
+          <div class="slds-form-element__control">
+            <div class="slds-select_container">
+              <select class="slds-select" formControlName="value" (ngModelChange)="getListValue(fieldCaption,$event)">
+                <option *ngFor="let val of listValues" [value]="val">{{ val }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'MULTIPLE_SELECT'">
+        <div class="slds-form-element">
+          <div class="slds-form-element__control">
+            <div class="slds-select_container">
+              <p-multiSelect
+                styleClass="table-multiselect"
+                [showToggleAll]="false"
+                [maxSelectedLabels]="10"
+                [selectionLimit]="10"
+                [options]="multiSelectOptions"
+                [ngModel]="multiSelectValues"
+                [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="setMultiSelectValues($event)"
+                [panelStyleClass]="'slds-dropdown slds-dropdown_left'"
+                optionLabel="value"
+                selectedItemsLabel="{0} columns selected"
+                defaultLabel="Select">
+                <ng-template let-option let-i="index" pTemplate="item">
+                  <div>{{option.label}}</div>
+                </ng-template>
+              </p-multiSelect>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'GRID'">
+        <div class="slds-form-element__control">
+          <p-table [columns]="gridHeaders" [value]="gridValues">
+            <ng-template pTemplate="header" let-columns>
+              <tr class="slds-border--bottom">
+                <th *ngFor="let col of columns"
+                    class="slds-app-launcher__header-search slds-border--left slds-border--right slds-border--top slds-box--small slds-text-title--caps">
+                  {{col.value}}
+                </th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr class="slds-border--bottom">
+                <td pEditableColumn *ngFor="let col of columns"
+                    class="slds-border--left slds-border--right slds-border--top slds-app-launcher__header-search">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText type="number"
+                             [(ngModel)]="rowData[col.value]"
+                             (ngModelChange)="getGridValues()"
+                             [ngModelOptions]="{standalone: true}">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{rowData[col.value]}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+              <tr>
+                <td class="p-text-right"
+                    class="slds-border--left slds-border--right slds-border--top slds-border--bottom slds-app-launcher__header-search slds-text-title_caps">
+                  Totals
+                </td>
+                <td
+                  class="slds-border--left slds-border--right slds-border--top slds-border--bottom slds-app-launcher__header-search slds-text-title_caps">
+                  {{gridTotal}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div *ngSwitchCase="'DATE'">
+        <input type="text" hidden formControlName="value">
+        <cbs-datepicker [value]="dateValue" (valueInvalid)="dateInvalid()"
+                        (valueChange)="setDate($event)"></cbs-datepicker>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="slds-form-element__row" *ngIf="fieldsReadOnly">
+  <div class="slds-form-element slds-size--1-of-1" [formGroup]="fieldForm">
+    <input type="number" formControlName="fieldId" hidden/>
+    <input type="text" formControlName="value" hidden/>
+    <span class="slds-form-element__label">{{ fieldCaption }}</span>
+    <div class="slds-form-element__control slds-has-divider--bottom">
+      <span class="slds-form-element__static">{{ fieldValue }}</span>
+    </div>
+  </div>
+</div>

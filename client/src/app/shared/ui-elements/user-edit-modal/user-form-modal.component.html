@@ -1,0 +1,231 @@
+<ngl-modal [header]="getTitle()" [(open)]="opened">
+    <div body class="cbs__user-edit-modal">
+        <form novalidate (ngSubmit)="submitForm(user)" [formGroup]="user">
+            <div class="slds-form--stacked">
+                <div class="slds-form-element" [class.slds-has-error]="(user.get('firstName').required && user.get('firstName').touched) || (user.get('firstName').touched && user.get('firstName').errors?.minlength)">
+                    <label class="slds-form-element__label" for="first-name-user">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('firstName').errors?.required">*</abbr>
+                        First Name
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="first-name-user" class="slds-input" type="text" placeholder="John" formControlName="firstName" />
+                    </div>
+                </div>
+                <div class="slds-form-element" [class.slds-has-error]="(user.get('lastName').errors?.required && user.get('lastName').touched) || (user.get('lastName').touched && user.get('lastName').errors?.minlength)">
+                    <label class="slds-form-element__label" for="last-name-user">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('lastName').errors?.required">*</abbr>
+                        Last Name
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="last-name-user" class="slds-input" type="text" placeholder="Doe" formControlName="lastName" />
+                    </div>
+                </div>
+                <div class="slds-form-element"  *ngIf="!selfUpdate" [class.slds-has-error]="(user.get('username').errors?.required && user.get('username').touched) || (user.get('username').touched && user.get('username').errors?.minlength)">
+                    <label class="slds-form-element__label" for="username">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('username').errors?.required">*</abbr>
+                        Username
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="username" class="slds-input" type="text" placeholder="username" formControlName="username" />
+                    </div>
+                </div>
+
+                <div class="slds-form-element" *ngIf="isNewUser" [class.slds-has-error]="(user.get('password').errors?.required && user.get('password').touched) || (user.get('password').touched && user.get('password').errors?.minlength)">
+                    <label class="slds-form-element__label" for="password">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('password').errors?.required">*</abbr>
+                        Password
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="password" class="slds-input" type="password" placeholder="password" formControlName="password" />
+                    </div>
+                </div>
+
+                <div class="slds-form-element" *ngIf="!selfUpdate" [class.slds-has-error]="(user.get('roleId').errors?.required && user.get('roleId').touched) || (user.get('roleId').invalid && user.get('roleId').touched)">
+                    <label class="slds-form-element__label" for="roleId">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('roleId').errors?.required">*</abbr>
+                        Select Role
+                    </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select id="roleId" class="slds-select" formControlName="roleId" (ngModelChange)="checkRoleType($event, volunteerFields)" required>
+                                <option *ngFor="let item of roles;  trackBy: item" [value]="item.id">{{ item.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form-element cbs__user-form__toggle" *ngIf="!selfUpdate">
+                    <label class="slds-checkbox--toggle slds-grid">
+                        <span class="slds-form-element__label slds-m-bottom--none">User Status</span>
+                        <input name="enabled" type="checkbox" aria-describedby="toggle-desc" formControlName="enabled" />
+                        <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox--on">Enabled</span>
+                            <span class="slds-checkbox--off">Disabled</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="slds-form-element" [class.slds-has-error]="(user.get('email').errors?.required && user.get('email').touched) || (user.get('email').invalid && user.get('email').touched)">
+                    <label class="slds-form-element__label" for="email">
+                        <abbr class="slds-required" title="required" *ngIf="user.get('email').errors?.required">*</abbr>
+                        Email
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="email" class="slds-input" type="email" placeholder="john@doe.com" formControlName="email" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="tel">Mobile Number</label>
+                    <div class="slds-form-element__control">
+                        <input id="tel" class="slds-input" type="text" name="mobilePhone" placeholder="XXX XXX XXXX" formControlName="mobilePhone" />
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showVolunteerExtraFields">
+                <hr>
+                <h3 class="slds-text-heading--small">Additional information</h3>
+                <div class="slds-form--stacked slds-m-top--small">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Phone Number</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="phoneNumber" placeholder="XXX XXX XXXX"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Address (location only)</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="address"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Street</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="street"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Postal Code</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="number" formControlName="postalCode"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Current occupation</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="currentOccupation"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Citizenship</label>
+                        <div class="slds-form-element__control">
+                            <select class="slds-select" formControlName="citizenship">
+                                <option value=""></option>
+                                <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Spoken languages</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="spokenLanguages"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Preferred working language(s)</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="preferredWorkingLanguages"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Area(s) of specialisation</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="specialization"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Availability per week</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="availability"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Have you already carried out volunteering? In which role?</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="alreadyVolunteered"/>
+                        </div>
+                    </div>
+                    <h4 class="slds-text-heading--label slds-m-top--large slds-m-bottom--x-small">Type of mentoring or activity you would be most interested in:</h4>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Support to Microlux? In which area?</label>
+                        <div class="slds-form-element__control">
+                            <select name="" class="slds-select" formControlName="support">
+                                <option value="debt-recovery">Debt recovery</option>
+                                <option value="communication-website">Communication / Website</option>
+                                <option value="accounting">Accounting</option>
+                                <option value="it">IT</option>
+                                <option value="reception">Reception</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Other</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="supportOther"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Support to project promoters? In which area?</label>
+                        <div class="slds-form-element__control">
+                            <select name="" class="slds-select" formControlName="supportPromoters">
+                                <option value="business-plan">Business plan</option>
+                                <option value="accounting">Accounting</option>
+                                <option value="administration">Administration</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="tel">Other</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" formControlName="supportPromotersOther"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        <div class="cbs__auth__spinner" *ngIf="isSubmitting">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+        <div [ngSwitch]="isResponseStatusOk">
+            <div *ngSwitchCase="'ok'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium" *ngIf="isNewUser">You have successfully created new user!</p>
+                        <p class="slds-text-heading--medium" *ngIf="!isNewUser">You have successfully updated the user!</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngSwitchCase="'error'">
+                <div class="cbs__response-block">
+                    <div class="cbs__response-block__item">
+                        <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+                        <p class="slds-text-heading--medium"> {{errorMessage || "Oops! Something went wrong, please try again."}} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template ngl-modal-footer>
+        <button class="slds-button slds-button--neutral" *ngIf="!isSubmitting && isResponseStatusOk == 'null'" (click)="cancel()">Cancel</button>
+        <button class="slds-button slds-button--brand" *ngIf="!isSubmitting && isResponseStatusOk == 'null'" [disabled]="isNewUser && user.invalid" (click)="submitForm(user);">{{ getSaveButtonText()}}</button>
+    </ng-template>
+</ngl-modal>

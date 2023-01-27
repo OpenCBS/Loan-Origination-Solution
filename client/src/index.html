@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+  <base href="/">
+</head>
+
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<cbs-app>Loading...</cbs-app>
+<app-root></app-root>
+
+<!-- Pre-Bootstrap Loader Screen -->
+<div id="pre-bootstrap-container">
+  <script type="text/javascript">
+    document.addEventListener("appready", handleAppReady);
+
+    function handleAppReady(event) {
+      var preBootstrapContainer = document.getElementById("pre-bootstrap-container");
+      var preBootstrap = document.getElementById("pre-bootstrap");
+      preBootstrap.className = "loaded";
+      setTimeout(
+        function removeLoadingScreen() {
+          preBootstrapContainer
+            .parentNode
+            .removeChild(preBootstrapContainer);
+        },
+        300
+      );
+    }
+  </script>
+  <style type="text/css">
+    #pre-bootstrap {
+      background-color: #fff;
+      bottom: 0px;
+      left: 0px;
+      opacity: 1.0;
+      position: fixed;
+      right: 0px;
+      top: 0px;
+      transition: all linear 300ms;
+      -webkit-transition: all linear 300ms;
+      z-index: 999999;
+    }
+
+    #pre-bootstrap.loaded {
+      opacity: 0.0;
+    }
+
+    #pre-bootstrap .preloader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.2);
+      -webkit-transform: translate(-50%, -50%) scale(0.2);
+      -moz-transform: translate(-50%, -50%) scale(0.2);
+    }
+  </style>
+  <div id="pre-bootstrap">
+    <img class="preloader" src="assets/img/spinners/slds_spinner_brand.gif" alt="">
+  </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+
+
+<div class="cbs__user-photo-modal">
+
+    <ngl-modal [header]="'Add photo'" [(open)]="opened">
+        <div body class="cbs__user-photo-modal__files-modal">
+            <div [ngClass]="{'slds-hide': showPreview}"
+                 cbsFileDrop
+                 [events]="events"
+                 [options]="options"
+                 (onUpload)="handleUpload($event);"
+                 (beforeAddFile)="beforeAdd($event)"
+                 (beforeUpload)="beforeFileUpload($event)"
+                 (onFileOver)="fileOverBase($event)"
+                 *ngIf="!uploadFile">
+                <div class="slds-form-element" [ngClass]="{'slds-has-error': uploadFile?.httpStatus === 400}">
+                    <div class="slds-form-element__control">
+                        <div class="slds-file-selector slds-file-selector--images">
+                            <div class="slds-file-selector__dropzone" [ngClass]="{'slds-has-drag-over': hasBaseDropZoneOver}">
+                                <input class="slds-file-selector__input slds-assistive-text" id="file-selector" type="file"
+                                       cbsFileSelect
+                                       [events]="events"
+                                       [options]="options"
+                                       (onUpload)="handleUpload($event);"
+                                       (beforeUpload)="beforeFileUpload($event)"
+                                       (beforeAddFile)="beforeAdd($event)" />
+                                <label class="slds-file-selector__body " for="file-selector">
+                                <span class="slds-file-selector__button slds-button slds-button--neutral ">
+                                <svg aria-hidden="true " class="slds-button__icon slds-button__icon--left ">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload "></use>
+                                </svg>Upload File</span>
+                                    <span class="slds-file-selector__text slds-medium-show ">or Drop File</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div [ngClass]="{'slds-hide': !showPreview}" class="cbs__user-photo-modal__files-preupload"   *ngIf="!uploadFile">
+                <cbs-doctype-icon [fileType]="previewFile?.type" [fileName]="previewFile?.name"></cbs-doctype-icon>
+                <h3 class="slds-section__title">{{previewFile?.name}}</h3>
+                <h3 class="slds-section__title"><strong>{{previewFile?.size | cbsHumanizeSize}}</strong></h3>
+                <div *ngIf="isFileSizeLarge" class="cbs__user-photo-modal__files-large-size-text">File is too large, please select other.</div>
+                <div class="cbs__user-photo-modal__files-btns">
+                    <button class="slds-button slds-button--destructive"
+                            [ngClass]="{'slds-button--destructive': !isFileSizeLarge, 'slds-button--brand': isFileSizeLarge}"
+                            (click)="clearFilesQueue()">
+                        <span *ngIf="isFileSizeLarge">Select other file</span>
+                        <span *ngIf="!isFileSizeLarge">Remove file</span>
+                    </button>
+                    <button class="slds-button slds-button--success" (click)="startUpload()" [disabled]="isFileSizeLarge">Upload</button>
+                </div>
+            </div>
+
+            <div class="" *ngIf="isSubmiting">
+                <div class="slds-spinner_container">
+                    <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cbs__response-block" *ngIf="uploadFile?.data">
+                <div class="cbs__response-block__item">
+                    <cbs-tickorcross [isTick]="true"></cbs-tickorcross>
+                    <p class="slds-text-heading--medium">You have successfully attached photo to profile</p>
+                </div>
+            </div>
+
+            <div class="cbs__response-block" *ngIf="uploadFile?.httpStatus === 400">
+                <div class="cbs__response-block__item">
+                    <cbs-tickorcross [isTick]="false"></cbs-tickorcross>
+                    <p class="slds-text-heading--medium">Oops! {{uploadFile?.message}}</p>
+                    <button class="slds-button slds-button--neutral" (click)="uploadFile = null">Try Again</button>
+                </div>
+            </div>
+        </div>
+        <ng-template ngl-modal-footer>
+            <button class="slds-button slds-button--neutral" (click)="cancel() ">Close</button>
+        </ng-template>
+    </ngl-modal>
+
+
+    <cbs-loading-indicator></cbs-loading-indicator>
+</div>

@@ -1,0 +1,25 @@
+<div class="cbs__permissions">
+    <h3 class="slds-section__title cbs__permissions__heading">Manage Permissions</h3>
+    <div class="slds-button-group" role="group">
+        <button class="slds-button" [ngClass]="{'slds-button--neutral': !isUsersTabActive, 'slds-button--brand': isUsersTabActive}" (click)="activateUsers($event);">Users</button>
+        <button class="slds-button" [ngClass]="{'slds-button--neutral': isUsersTabActive, 'slds-button--brand': !isUsersTabActive}" (click)="activateRoles($event);">Roles</button>
+    </div>
+    <div class="cbs__permissions__list" *ngIf="isUsersTabActive">
+        <ul>
+            <li *ngFor="let user of users; let i = index;">
+                <cbs-permission-item [permissionItem]="user" [activeDefinedPermissions]="selectedItems" permissionType="user" (togglePermission)="checkItem($event)"></cbs-permission-item>
+            </li>
+        </ul>
+    </div>
+    <div class="cbs__permissions__list" *ngIf="!isUsersTabActive">
+        <ul>
+            <li *ngFor="let role of roles; let i = index;">
+                <cbs-permission-item [permissionItem]="role" [activeDefinedPermissions]="selectedItems" permissionType="role" (togglePermission)="checkItem($event)"></cbs-permission-item>
+            </li>
+        </ul>
+    </div>
+    <div class="cbs__permissions__footer">
+        <button class="slds-button slds-button--success" (click)="savePermissions($event)">Add</button>
+        <button class="slds-button slds-button--neutral" (click)="cancelPermissions($event)">Cancel</button>
+    </div>
+</div>

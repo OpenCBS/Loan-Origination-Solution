@@ -1,0 +1,35 @@
+<cbs-page-header [headerTitle]="'Settings'" [headerHeading]="'Home'" [svgIconName]="['standard', 'custom', 'team-member']" [noPadding]="true" [noBackground]="true" [noBorderBottom]="true"></cbs-page-header>
+
+<cbs-body-board>
+    <div class="cbs__settings__head">
+        <div class="slds-text-heading--large">Recent Activities</div>
+    </div>
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer cbs__profiles">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col">
+                    <div class="slds-truncate" title="Name">Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Type">Type</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Object">Object</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="Name">
+                    <div class="slds-truncate" title="-">-</div>
+                </td>
+                <td data-label="Type">
+                    <div class="slds-truncate">-</div>
+                </td>
+                <td data-label="Object">
+                    <div class="slds-truncate">-</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</cbs-body-board>

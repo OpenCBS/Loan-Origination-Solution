@@ -1,0 +1,61 @@
+<div class="cbs__auth">
+    <div class="cbs__auth-logo">
+        <cbs-logo-svg></cbs-logo-svg>
+<!--      <h4 class="slds-align&#45;&#45;absolute-center slds-badge slds-badge__icon slds-docked-composer__header"-->
+<!--          style="width: fit-content; font-size: xx-large;">Loan Origination</h4>-->
+        <a href="http://www.opencbs.com" style="padding-left: 1.8rem;" target="_blank" class="slds-text-body--small">Powered by OpenCBS</a>
+    </div>
+    <div class="cbs__auth-form-wrap">
+        <p class="slds-text-color--error" *ngIf="wrongDataSubmit">Please check your username and password.</p>
+        <form class="cbs__auth-form" novalidate #f="ngForm" (ngSubmit)="submitForm(f)">
+            <div class="slds-form--stacked">
+                <div class="slds-form-element" [class.slds-has-error]="userName.errors?.required && userName.touched">
+                    <label class="slds-form-element__label" for="username-id">
+                        <abbr class="slds-required" title="required" *ngIf="userName.errors?.required && userName.touched">*</abbr>
+                        Username
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="username-id" class="slds-input" type="text" placeholder="Chris" name="username" minlength="3" #userName="ngModel" ngModel required/>
+                    </div>
+                </div>
+                <div class="slds-form-element" [class.slds-has-error]="password.errors?.required && password.touched">
+                    <label class="slds-form-element__label" for="password-id">
+                        <abbr class="slds-required" title="required" *ngIf="password.errors?.required && password.touched">*</abbr>
+                        Password
+                    </label>
+                    <div class="slds-form-element__control">
+                        <input id="password-id" class="slds-input" type="password" placeholder="*********" name="password" minlength="5" #password="ngModel" ngModel required/>
+                    </div>
+                </div>
+                <input type="submit" *ngIf="!isSubmitting" class="slds-button slds-button--brand" [disabled]="f.invalid" value="Sign in">
+                <div class="cbs__auth__spinner" *ngIf="isSubmitting">
+                    <div class="slds-spinner_container">
+                        <div class="slds-spinner--brand slds-spinner slds-spinner--small" role="alert">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-clearfix">
+                    <div class="slds-float--left">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <span class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-308" checked="" />
+                                    <label class="slds-checkbox__label" for="checkbox-308">
+                                        <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">Remember me</span>
+                                </label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-float--right">
+                        <a href="#" class="" (click)="goToResetPasswordRequestPage($event)">Forgot Your Password?</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

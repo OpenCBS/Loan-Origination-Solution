@@ -1,0 +1,191 @@
+<div class="slds-text-align--center">
+    <a href="javascript:void(0);" title="" class="slds-avatar slds-avatar--circle cbs__user-settings__avatar" (click)="addPhoto()" [ngStyle]="{'background-image': (avatarImgUrl ? ('url(' + avatarImgUrl + ')') : 'url(img/avatar1.jpg)')}">
+        <img src="/assets/img/avatar1.jpg" *ngIf="!avatarImgUrl" alt="Profile avatar" />
+        <img [src]="avatarImgUrl" *ngIf="avatarImgUrl" alt="{{currentUser?.firstName}} {{currentUser?.lastName}}" />
+    </a>
+</div>
+
+    <div class="slds-form--horizontal">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="username-read">Username</label>
+            <span id="username-read" class="cbs__user-settings__text">{{currentUser?.username}}</span>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="firstname-read">First Name</label>
+            <span id="firstname-read" class="cbs__user-settings__text">{{currentUser?.firstName}}</span>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="lastname-read">Last Name</label>
+            <span id="lastname-read" class="cbs__user-settings__text">{{currentUser?.lastName}}</span>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="email-read">Email</label>
+            <span id="email-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.email">{{currentUser?.email}}</span>
+                <span *ngIf="!currentUser?.email">-</span>
+            </span>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="mobile-phone-read">Mobile phone</label>
+            <span id="mobile-phone-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.mobilePhone">{{currentUser?.mobilePhone}}</span>
+                <span *ngIf="!currentUser?.mobilePhone">-</span>
+            </span>
+        </div>
+
+
+
+
+        <div *ngIf="isVolunteer">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="phone-read">Phone number</label>
+                <span id="phone-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.phoneNumber">{{currentUser?.phoneNumber}}</span>
+                <span *ngIf="!currentUser?.phoneNumber">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="address-read">Address (location only)</label>
+                <span id="address-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.address">{{currentUser?.address}}</span>
+                <span *ngIf="!currentUser?.address">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="street-read">Street</label>
+                <span id="street-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.street">{{currentUser?.street}}</span>
+                <span *ngIf="!currentUser?.street">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="postal-code-read">Postal code</label>
+                <span id="postal-code-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.postalCode">{{currentUser?.postalCode}}</span>
+                <span *ngIf="!currentUser?.postalCode">-</span>
+            </span>
+            </div>
+
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="current-occupation-read">Current occupation</label>
+                <span id="current-occupation-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.currentOccupation">{{currentUser?.currentOccupation}}</span>
+                <span *ngIf="!currentUser?.currentOccupation">-</span>
+            </span>
+            </div>
+
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="citizenship-read">Citizenship</label>
+                <span id="citizenship-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.citizenship">{{currentUser?.citizenship}}</span>
+                <span *ngIf="!currentUser?.citizenship">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="spoken-languages-read">Spoken Languages</label>
+                <span id="spoken-languages-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.spokenLanguages">{{currentUser?.spokenLanguages}}</span>
+                <span *ngIf="!currentUser?.spokenLanguages">-</span>
+            </span>
+            </div>
+
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="preferred-working-languages-read">Preferred working language(s)</label>
+                <span id="preferred-working-languages-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.preferredWorkingLanguages">{{currentUser?.preferredWorkingLanguages}}</span>
+                <span *ngIf="!currentUser?.preferredWorkingLanguages">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="specialization-read">Area(s) of specialisation</label>
+                <span id="specialization-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.specialization">{{currentUser?.specialization}}</span>
+                <span *ngIf="!currentUser?.specialization">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="availability-read">Availability per week</label>
+                <span id="availability-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.availability">{{currentUser?.availability}}</span>
+                <span *ngIf="!currentUser?.availability">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="already-volunteered-read">Have you already carried out volunteering? In which role?</label>
+                <span id="already-volunteered-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.alreadyVolunteered">{{currentUser?.alreadyVolunteered}}</span>
+                <span *ngIf="!currentUser?.alreadyVolunteered">-</span>
+            </span>
+            </div>
+
+            <div></div>
+            <h4 class="slds-text-heading--label slds-m-top--large slds-m-bottom--x-small">Type of mentoring or activity you would be most interested in:</h4>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="support-read">Support to Microlux? In which area?</label>
+                <span id="support-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.support">{{getSupport()}}</span>
+                <span *ngIf="!currentUser?.support">-</span>
+            </span>
+            </div>
+
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="support-other-read">Other</label>
+                <span id="support-other-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.supportOther">{{currentUser?.supportOther}}</span>
+                <span *ngIf="!currentUser?.supportOther">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="support-promoters-read">Support to project promoters? In which area?</label>
+                <span id="support-promoters-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.supportPromoters">{{getSupportPromoters()}}</span>
+                <span *ngIf="!currentUser?.supportPromoters">-</span>
+            </span>
+            </div>
+
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="support-promoters-other-read">Other</label>
+                <span id="support-promoters-Other-read" class="cbs__user-settings__text">
+                <span *ngIf="currentUser?.supportPromotersOther">{{currentUser?.supportPromotersOther}}</span>
+                <span *ngIf="!currentUser?.supportPromotersOther">-</span>
+            </span>
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div class="cbs__user-settings__button slds-text-align--center">
+            <button class="slds-button slds-button--neutral slds-not-selected" aria-live="assertive" (click)="openUpdateForm()">
+                <span class="slds-text-not-selected">
+                <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                </svg>Edit</span>
+            </button>
+        </div>
+
+    </div>
+
+
+
+<cbs-user-modal (saveUserData)="saveUser($event)"></cbs-user-modal>
+<cbs-user-photo-modal (onUpload)="onImageUpload($event)"></cbs-user-photo-modal>
+
+
+

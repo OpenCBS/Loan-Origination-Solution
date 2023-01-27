@@ -1,0 +1,14 @@
+<div class="slds-form-element__control cbs-datepicker">
+    <cbs-input-mask [(ngModel)]="value" (onComplete)="emitValueChange(value)"  [styleClass]="'slds-input'" [mask]="'9999-99-99'" [slotChar]="'_'"></cbs-input-mask>
+
+    <div nglDropdown [(open)]="openNglDatepicker" class="cbs-datepicker__icon">
+        <ngl-icon nglDropdownTrigger category="utility" *ngIf="showIcon" icon="event" size="x-small" svgClass="slds-input__icon"></ngl-icon>
+        <div class="slds-dropdown slds-dropdown--right" *ngIf="enableDropdownPicker">
+            <ngl-datepicker
+                nglDropdownItem
+                [date]="DATE_MODEL"
+                (dateChange)="assignDate($event); openNglDatepicker = false;"
+                class="slds-box slds-box--x-small"></ngl-datepicker>
+        </div>
+    </div>
+</div>

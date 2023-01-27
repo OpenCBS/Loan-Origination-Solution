@@ -1,0 +1,87 @@
+<div class="cbs__search">
+    <form (ngSubmit)="submit(searchForm)" novalidate [formGroup]="searchForm">
+        <h1 class="slds-page-header__title">Search</h1>
+        <div class="slds-form--stacked">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="application-name">Application Name</label>
+                <input id="application-name" class="slds-input" type="text" placeholder="Application name" formControlName="name" />
+            </div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="state-name">State Name</label>
+                <input id="state-name" class="slds-input" type="text" placeholder="State Name" formControlName="stateName" />
+            </div>
+            <fieldset class="slds-form-element">
+                <legend class="slds-form-element__legend slds-form-element__label">Application Status</legend>
+                <div class="slds-form-element__control">
+                    <span class="slds-radio">
+                        <input type="radio" id="status-all" name="completed" checked="true" formControlName="completed" value="" />
+                        <label class="slds-radio__label" for="status-all">
+                            <span class="slds-radio--faux"></span>
+                            <span class="slds-form-element__label">All</span>
+                        </label>
+                    </span>
+                    <span class="slds-radio">
+                        <input type="radio" id="status-completed-only" name="completed" formControlName="completed" value="true" />
+                        <label class="slds-radio__label" for="status-completed-only">
+                            <span class="slds-radio--faux"></span>
+                            <span class="slds-form-element__label">Completed only</span>
+                        </label>
+                    </span>
+                    <span class="slds-radio">
+                        <input type="radio" id="status-not-completed" name="completed" formControlName="completed" value="false" />
+                        <label class="slds-radio__label" for="status-not-completed">
+                            <span class="slds-radio--faux"></span>
+                            <span class="slds-form-element__label">Not Completed</span>
+                        </label>
+                    </span>
+                </div>
+            </fieldset>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="profile-name">Profile Name</label>
+                <input id="profile-name" class="slds-input" type="text" placeholder="Profile Name" formControlName="profileName" />
+            </div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="user-created">User Created</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select id="user-created" class="slds-select" formControlName="createdUserId">
+                            <option *ngFor="let user of users; trackBy: user" [value]="user.id">{{ user.firstName }} {{user.lastName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="responsible-user">Responsible User</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select id="responsible-user" class="slds-select" formControlName="responsibleUserId">
+                            <option *ngFor="let user of users; trackBy: user" [value]="user.id">{{ user.firstName }} {{user.lastName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form-element">
+              <label class="slds-form-element__label" for="state-responsible-user">State Responsible User</label>
+              <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                  <select id="state-responsible-user" class="slds-select" formControlName="stateResponsibleUserId">
+                    <option *ngFor="let user of users; trackBy: user" [value]="user.id">{{ user.firstName }} {{user.lastName}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="slds-form-element" [class.slds-has-error]="searchForm.get('startCreatedDate').hasError('invalid-date')">
+                <label class="slds-form-element__label">Date created (from)</label>
+                <input type="text" hidden formControlName="startCreatedDate">
+                <cbs-datepicker [showIcon]="false" [value]="startCreatedDate ? startCreatedDate : ''" (valueInvalid)="dateInvalid('startCreatedDate')" (valueChange)="setDate($event, 'startCreatedDate')"></cbs-datepicker>
+            </div>
+            <div class="slds-form-element" [class.slds-has-error]="searchForm.get('endCreatedDate').hasError('invalid-date')">
+              <label class="slds-form-element__label">Date created (to) </label>
+              <input type="text" hidden formControlName="endCreatedDate">
+              <cbs-datepicker [showIcon]="false" [value]="endCreatedDate ? endCreatedDate : ''" (valueInvalid)="dateInvalid('endCreatedDate')" (valueChange)="setDate($event, 'endCreatedDate')"></cbs-datepicker>
+            </div>
+            <button class="slds-button slds-button--success cbs__search__btn" [disabled]="searchForm.invalid">Search</button>
+            <button class="slds-button slds-button--neutral cbs__search__btn" (click)="reset($event)">Reset</button>
+        </div>
+    </form>
+</div>
